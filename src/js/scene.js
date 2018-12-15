@@ -1,28 +1,15 @@
-import Player from './Entity/player'
+import MainScene from './Scene/mainScene'
+import TitleScene from './Scene/titleScene'
 
-export default class SceneManager {
+export default class Scene {
   static init () {
+    this.scenes = []
     console.log('SceneManager init')
   }
-  static main () {
+  static push (sceneTitle) {
     this.currentScene = new MainScene()
   }
   static update () {
     this.currentScene.update()
-  }
-}
-
-class MainScene {
-  constructor () {
-    this.entities = []
-    this.entities.push(new Player())
-    console.log('MainScene created')
-  }
-  update () {
-    this.entities.forEach(
-      e => {
-        e.update()
-      }
-    )
   }
 }

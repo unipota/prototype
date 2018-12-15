@@ -1,9 +1,9 @@
 
-export default class InputManager {
+export default class Input {
   static init () {
-    document.addEventListener('keydown', e => {InputManager.onKeyDown(e)})
-    document.addEventListener('keyup', e => {InputManager.onKeyUp(e)})
-    window.addEventListener('blur', e => {InputManager.reset(e)})
+    document.addEventListener('keydown', e => {Input.onKeyDown(e)})
+    document.addEventListener('keyup', e => {Input.onKeyUp(e)})
+    window.addEventListener('blur', e => {Input.reset(e)})
     this.pressedKey = {}
     this.pressedKeyLock = {}
     console.log('InputManager init')

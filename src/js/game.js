@@ -1,21 +1,22 @@
 import './settings'
 import Drawer from './drawer'
-import InputManager from './input'
-import SceneManager from './scene'
+import Input from './input'
+import Scene from './scene'
 
 class Game {
   static async start () {
     Drawer.init()
-    InputManager.init()
-    SceneManager.init()
+    Input.init()
+    Scene.init()
     await Drawer.load()
+    console.log('Assets loaded')
 
-    SceneManager.main()
+    Scene.push('titleScene')
     Game.run()
   }
   static run () {
     Drawer.drawAll()
-    SceneManager.update()
+    Scene.update()
     requestAnimationFrame(Game.run)
   }
 }
