@@ -36,5 +36,13 @@ export default class Input {
     return false
   }
   static isAnyKeyPressed () {
+    for (let k in this.pressedKey) {
+      if (this.pressedKey[k]) return true
+    }
+    return false
+  }
+  static resetKeys () {
+    this.pressedKey = {}
+    this.pressedKeyLock = {}
   }
 }

@@ -2,6 +2,7 @@ import './settings'
 import Drawer from './drawer'
 import Input from './input'
 import Scene from './scene'
+import TitleScene from './Scene/titleScene'
 
 class Game {
   static async start () {
@@ -11,7 +12,7 @@ class Game {
     await Drawer.load()
     console.log('Assets loaded')
 
-    Scene.push('titleScene')
+    Scene.push(new TitleScene)
     Game.run()
   }
   static run () {

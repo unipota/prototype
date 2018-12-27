@@ -4,5 +4,6 @@ export default {
   'up': 38,
   'right': 39,
   'down': 40,
-  'shift': 16
+  'shift': 16,
+  'escape': 27
 }

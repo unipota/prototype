@@ -4,10 +4,12 @@ import Input from '../input'
 import KeyConfig from '../Config/keyConfig'
 
 export default class Player extends Entity {
-  constructor () {
+  constructor (scene) {
     super()
     this.sprite = Drawer.makeSprite(Drawer.textures.mychara.down)
-    Drawer.addToRoot(this.sprite)
+    this.sprite.x = 200
+    this.sprite.y = 200
+    scene.stage.addChild(this.sprite)
     
     this.acc = {
       x: 0, y: 0
