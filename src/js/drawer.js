@@ -10,14 +10,14 @@ export default class Drawer {
     this.loader = PIXI.loader
     this.rootStage = new PIXI.Container()
 
-    document.body.appendChild(this.renderer.view)
+    document.getElementById('app').appendChild(this.renderer.view)
     console.log('Drawer init')
   }
   static load () {
     return new Promise(resolve => {
       this.loader.onComplete.add(resolve)
       this.loader
-        .add('./assets/img/blanc.json')
+        .add('./assets/blanc.json')
         .load(() => Drawer.onLoaded())
     })
   }
