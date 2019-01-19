@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx webpack-dev-server --hot --inline --devtool source-map"
+    "dev": "npx webpack-dev-server --hot --inline --devtool source-map",
+    "build": "npx webpack"
   },
   "author": "",
   "license": "ISC",
