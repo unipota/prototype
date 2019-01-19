@@ -1,3 +1,6 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: ['./src/js/game.js'],
@@ -7,6 +10,16 @@ module.exports = {
         type: 'javascript/auto',
         test: /\.json$/,
         use: [ { loader: 'file-loader' } ]
+      },
+      {
+        test: /\.html$/
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [ { 
+          loader: 'file-loader?name=[name].[ext]',
+          options: { outputPath : 'assets/' }
+        } ]
       }
     ]
   },
@@ -16,6 +29,15 @@ module.exports = {
   },
   devServer: {
     contentBase: __dirname + '/public',
-    watchContentBase: true
-  }
+    watchContentBase: true,
+    port: 1234
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html"
+    }),
+    new CopyWebpackPlugin([
+      { from: 'src/assets/img', to: 'assets/img' }
+    ])
+  ]
 };

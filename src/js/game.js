@@ -3,10 +3,6 @@ import Drawer from './drawer'
 import Input from './input'
 import Scene from './scene'
 import TitleScene from './Scene/titleScene'
-// import data from '../assets/img/blanc.json'
-
-// console.log(data)
-// console.log('a')
 
 class Game {
   static async start () {

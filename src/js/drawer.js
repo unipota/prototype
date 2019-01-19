@@ -16,8 +16,9 @@ export default class Drawer {
   static load () {
     return new Promise(resolve => {
       this.loader.onComplete.add(resolve)
+      const blancjson = require('../assets/blanc.json')
       this.loader
-        .add('./assets/blanc.json')
+        .add(blancjson)
         .load(() => Drawer.onLoaded())
     })
   }

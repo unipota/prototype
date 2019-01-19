@@ -7,8 +7,8 @@ export default class Player extends Entity {
   constructor (scene) {
     super()
     this.sprite = Drawer.makeSprite(Drawer.textures.mychara.down)
-    this.sprite.x = 200
-    this.sprite.y = 200
+    this.sprite.x = 100
+    this.sprite.y = 100
     scene.stage.addChild(this.sprite)
     
     this.acc = {
