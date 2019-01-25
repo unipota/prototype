@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const PrettierPlugin = require('prettier-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -13,13 +14,6 @@ module.exports = {
       },
       {
         test: /\.html$/
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        use: [ { 
-          loader: 'file-loader?name=[name].[ext]',
-          options: { outputPath : 'assets/' }
-        } ]
       }
     ]
   },
@@ -38,6 +32,17 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'src/assets/img', to: 'assets/img' }
-    ])
+    ]),
+    new PrettierPlugin({
+      printWidth: 80,               
+      tabWidth: 2,                 
+      useTabs: false,              
+      semi: false,                  
+      singleQuote: true,
+      trailingComma: false,
+      bracketSpacing: true,
+      encoding: 'utf-8',           
+      extensions: [ ".js", ".ts" ]  
+    })
   ]
 };
