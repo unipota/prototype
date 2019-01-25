@@ -2,21 +2,21 @@ import MainScene from './Scene/mainScene'
 import TitleScene from './Scene/titleScene'
 
 export default class Scene {
-  static init () {
+  static init() {
     this.scenes = []
     console.log('SceneManager init')
   }
-  static push (scene) {
+  static push(scene) {
     this.scenes.push(scene)
     console.log(this.scenes)
   }
-  static pop () {
+  static pop() {
     this.scenes.pop()
   }
-  static get currentScene () {
-    return this.scenes[this.scenes.length-1]
+  static get currentScene() {
+    return this.scenes[this.scenes.length - 1]
   }
-  static update () {
+  static update() {
     this.currentScene.update()
   }
 }

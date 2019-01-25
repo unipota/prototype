@@ -4,43 +4,69 @@ import Input from '../input'
 import KeyConfig from '../Config/keyConfig'
 
 export default class Player extends Entity {
-  constructor (scene) {
+  constructor(scene) {
     super()
     this.sprite = Drawer.makeSprite(Drawer.textures.mychara.down)
     this.sprite.x = 100
     this.sprite.y = 100
     scene.stage.addChild(this.sprite)
-    
+
     this.acc = {
-      x: 0, y: 0
+      x: 0,
+      y: 0
     }
     this.vel = {
-      x: 0, y: 0
+      x: 0,
+      y: 0
     }
   }
-  update () {
+  update() {
     this.moveByInput()
+    this.limitVelocity()
+    this.resistVelocity()
     this.applyVelocity()
   }
-  moveByInput () {
-    if (Input.isKeyPressed(KeyConfig.left)) {
-      this.sprite.x -= 1
+  moveByInput() {
+    if (Input.isKeyPressed(KeyConfig.LEFT)) {
+      this.vel.x -= 0.1
       this.sprite.texture = Drawer.textures.mychara.left
     }
-    if (Input.isKeyPressed(KeyConfig.up)) {
-      this.sprite.y -= 1
+    if (Input.isKeyPressed(KeyConfig.UP)) {
+      this.vel.y -= 0.1
       this.sprite.texture = Drawer.textures.mychara.up
     }
-    if (Input.isKeyPressed(KeyConfig.right)) {
-      this.sprite.x += 1
+    if (Input.isKeyPressed(KeyConfig.RIGHT)) {
+      this.vel.x += 0.1
       this.sprite.texture = Drawer.textures.mychara.right
     }
-    if (Input.isKeyPressed(KeyConfig.down)) {
-      this.sprite.y += 1
+    if (Input.isKeyPressed(KeyConfig.DOWN)) {
+      this.vel.y += 0.1
       this.sprite.texture = Drawer.textures.mychara.down
     }
   }
-  applyVelocity () {
+  limitVelocity() {
+    this.vel.x = Math.min(this.vel.x, 1)
+    this.vel.y = Math.min(this.vel.y, 1)
+  }
+  resistVelocity() {
+    this.vel.x =
+      Math.abs(this.vel.x) < 0.1
+        ? 0
+        : this.vel.x > 0
+        ? this.vel.x - 0.05
+        : this.vel.x < 0
+        ? this.vel.x + 0.05
+        : this.vel.x
+    this.vel.y =
+      Math.abs(this.vel.y) < 0.1
+        ? 0
+        : this.vel.y > 0
+        ? this.vel.y - 0.05
+        : this.vel.y < 0
+        ? this.vel.y + 0.05
+        : this.vel.y
+  }
+  applyVelocity() {
     this.sprite.x += this.vel.x
     this.sprite.y += this.vel.y
   }

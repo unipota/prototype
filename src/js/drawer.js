@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 
 export default class Drawer {
-  static init () {
+  static init() {
     this.renderer = PIXI.autoDetectRenderer({
       width: 640,
       height: 480,
@@ -13,35 +13,34 @@ export default class Drawer {
     document.getElementById('app').appendChild(this.renderer.view)
     console.log('Drawer init')
   }
-  static load () {
+  static load() {
     return new Promise(resolve => {
       this.loader.onComplete.add(resolve)
-      const blancjson = require('../assets/blanc.json')
       this.loader
-        .add(blancjson)
+        .add(require('../assets/blanc.json'))
         .load(() => Drawer.onLoaded())
     })
   }
-  static onLoaded () {
+  static onLoaded() {
     this.textures = {
-      'mychara': {
-        'down': PIXI.Texture.fromFrame('blanc 0.aseprite'),
-        'right': PIXI.Texture.fromFrame('blanc 1.aseprite'),
-        'up': PIXI.Texture.fromFrame('blanc 2.aseprite'),
-        'left': PIXI.Texture.fromFrame('blanc 3.aseprite')
+      mychara: {
+        down: PIXI.Texture.fromFrame('blanc 0.aseprite'),
+        right: PIXI.Texture.fromFrame('blanc 1.aseprite'),
+        up: PIXI.Texture.fromFrame('blanc 2.aseprite'),
+        left: PIXI.Texture.fromFrame('blanc 3.aseprite')
       }
     }
   }
-  static makeSprite (defaultTexture) {
+  static makeSprite(defaultTexture) {
     return new PIXI.Sprite(defaultTexture)
   }
-  static addToRoot (target) {
+  static addToRoot(target) {
     this.rootStage.addChild(target)
   }
-  static removeFromRoot (target) {
+  static removeFromRoot(target) {
     this.rootStage.removeChild(target) //indexで削除できるようにする
   }
-  static drawAll () {
+  static drawAll() {
     this.renderer.render(this.rootStage)
   }
 }

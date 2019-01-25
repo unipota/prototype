@@ -3,18 +3,17 @@ import Input from '../input'
 import Drawer from '../drawer'
 
 export default class BaseScene {
-  constructor () {
+  constructor() {
     Input.resetKeys()
     this.stage = new PIXI.Container()
     Drawer.addToRoot(this.stage)
   }
-  push (scene) {
+  push(scene) {
     Scene.push(scene)
   }
-  pop () {
+  pop() {
     Drawer.removeFromRoot(this.stage)
     Scene.pop()
   }
-  update () {
-  }
+  update() {}
 }

@@ -5,17 +5,17 @@ import Scene from './scene'
 import TitleScene from './Scene/titleScene'
 
 class Game {
-  static async start () {
+  static async start() {
     Drawer.init()
     Input.init()
     Scene.init()
     await Drawer.load()
     console.log('Assets loaded')
 
-    Scene.push(new TitleScene)
+    Scene.push(new TitleScene())
     Game.run()
   }
-  static run () {
+  static run() {
     Drawer.drawAll()
     Scene.update()
     requestAnimationFrame(Game.run)
@@ -23,4 +23,3 @@ class Game {
 }
 
 document.addEventListener('DOMContentLoaded', Game.start())
-
