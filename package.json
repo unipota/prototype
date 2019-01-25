@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx webpack-dev-server --hot --inline --devtool source-map",
-    "build": "npx webpack --mode production --optimize-minimize"
+    "dev": "npx webpack-dev-server --hot --inline --devtool source-map --config webpack.dev.js",
+    "build": "npx webpack --mode production --optimize-minimize --config webpack.prod.js"
   },
   "author": "",
   "license": "ISC",
