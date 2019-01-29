@@ -4,12 +4,13 @@ import Input from 'js/Input'
 import KeyConfig from 'js/Config/KeyConfig'
 
 export default class Player extends BaseEntity {
-  constructor({ scene, x, y }) {
+  constructor({ camera, x, y }) {
     super()
     this.sprite = Drawer.makeSprite(Drawer.textures.mychara.down)
     this.sprite.x = x
     this.sprite.y = y
-    scene.stage.addChild(this.sprite)
+    this.camera = camera
+    camera.addChild(this.sprite)
 
     this.acc = {
       x: 0,
@@ -25,6 +26,14 @@ export default class Player extends BaseEntity {
     this.resistVelocity()
     this.limitVelocity()
     this.applyVelocity()
+
+    const targetX = this.sprite.x + this.sprite.width / 2
+    const targetY = this.sprite.y + this.sprite.height / 2
+
+    this.camera.pivot.x =
+      (targetX - this.camera.pivot.x) * 0.06 + this.camera.pivot.x
+    this.camera.pivot.y =
+      (targetY - this.camera.pivot.y) * 0.06 + this.camera.pivot.y
   }
   moveByInput() {
     if (Input.isKeyPressed(KeyConfig.LEFT)) {

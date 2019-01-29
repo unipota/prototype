@@ -10,12 +10,16 @@ import Drawer from 'js/Drawer'
 export default class MainScene extends BaseScene {
   constructor() {
     super()
+
+    this.camera = new PIXI.Container()
+    this.camera.position.set(Drawer.width / 4, Drawer.height / 4)
+
     this.entities = []
-    for (let x = 0; x < Drawer.width / 32 / 2; x++) {
-      for (let y = 0; y < Drawer.height / 32 / 2; y++) {
+    for (let x = 0; x < Drawer.width / 32; x++) {
+      for (let y = 0; y < Drawer.height / 32; y++) {
         this.entities.push(
           new MapChip({
-            scene: this,
+            camera: this.camera,
             id: 0,
             x: x * 32,
             y: y * 32
@@ -25,11 +29,13 @@ export default class MainScene extends BaseScene {
     }
     this.entities.push(
       new Player({
-        scene: this,
-        x: 100,
-        y: 100
+        camera: this.camera,
+        x: 120,
+        y: 120
       })
     )
+
+    this.stage.addChild(this.camera)
 
     this.stage.scale.x = this.stage.scale.y = 2
     console.log('MainScene created')
