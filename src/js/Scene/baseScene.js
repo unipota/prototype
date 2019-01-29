@@ -1,6 +1,6 @@
-import Scene from '../scene'
-import Input from '../input'
-import Drawer from '../drawer'
+import Scene from 'js/Scene'
+import Input from 'js/Input'
+import Drawer from 'js/Drawer'
 
 export default class BaseScene {
   constructor() {

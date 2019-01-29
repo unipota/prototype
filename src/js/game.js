@@ -1,8 +1,8 @@
-import './settings'
-import Drawer from './drawer'
-import Input from './input'
-import Scene from './scene'
-import TitleScene from './Scene/titleScene'
+import './Settings'
+import Drawer from './Drawer'
+import Input from './Input'
+import Scene from './Scene'
+import TitleScene from './Scene/TitleScene'
 
 class Game {
   static async start() {

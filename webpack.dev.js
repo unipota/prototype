@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PrettierPlugin = require('prettier-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -26,12 +27,17 @@ module.exports = {
     watchContentBase: true,
     port: 1234
   },
+  resolve: {
+    alias: {
+      'js': path.resolve(__dirname, 'src/js'),
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html"
     }),
     new CopyWebpackPlugin([
-      { from: 'src/assets/img', to: 'assets/img' }
+      { from: 'src/assets/img', to: 'public/assets/img' }
     ]),
     new PrettierPlugin({
       printWidth: 80,         

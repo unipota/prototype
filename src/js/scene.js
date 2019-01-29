@@ -1,6 +1,3 @@
-import MainScene from './Scene/mainScene'
-import TitleScene from './Scene/titleScene'
-
 export default class Scene {
   static init() {
     this.scenes = []

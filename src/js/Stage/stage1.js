@@ -1,3 +1,3 @@
-import BaseStage from './baseStage'
+import BaseStage from './BaseStage'
 
-export default class stage1 {}
+export default class Stage1 {}

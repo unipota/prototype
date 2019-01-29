@@ -1,14 +1,14 @@
-import Entity from '../entity'
-import Drawer from '../drawer'
-import Input from '../input'
-import KeyConfig from '../Config/keyConfig'
+import BaseEntity from './BaseEntity'
+import Drawer from 'js/Drawer'
+import Input from 'js/Input'
+import KeyConfig from 'js/Config/KeyConfig'
 
-export default class Player extends Entity {
-  constructor(scene) {
+export default class Player extends BaseEntity {
+  constructor({ scene, x, y }) {
     super()
     this.sprite = Drawer.makeSprite(Drawer.textures.mychara.down)
-    this.sprite.x = 100
-    this.sprite.y = 100
+    this.sprite.x = x
+    this.sprite.y = y
     scene.stage.addChild(this.sprite)
 
     this.acc = {
