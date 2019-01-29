@@ -20,6 +20,11 @@ module.exports = {
     filename: 'bundle.js',
     path: __dirname + '/public'
   },
+  resolve: {
+    alias: {
+      'js': path.resolve(__dirname, 'src/js'),
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html"
