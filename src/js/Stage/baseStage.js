@@ -1,5 +1,3 @@
-
-export default class baseStage
-{
-    
+export default class baseStage {
+  constructor() {}
 }

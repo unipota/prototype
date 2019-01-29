@@ -22,8 +22,8 @@ export default class Player extends Entity {
   }
   update() {
     this.moveByInput()
-    this.limitVelocity()
     this.resistVelocity()
+    this.limitVelocity()
     this.applyVelocity()
   }
   moveByInput() {
@@ -45,8 +45,10 @@ export default class Player extends Entity {
     }
   }
   limitVelocity() {
-    this.vel.x = Math.min(this.vel.x, 1)
-    this.vel.y = Math.min(this.vel.y, 1)
+    this.vel.x =
+      this.vel.x > 0 ? Math.min(this.vel.x, 1) : Math.max(this.vel.x, -1)
+    this.vel.y =
+      this.vel.y > 0 ? Math.min(this.vel.y, 1) : Math.max(this.vel.y, -1)
   }
   resistVelocity() {
     this.vel.x =

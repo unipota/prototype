@@ -1,4 +1,5 @@
 import BaseScene from './baseScene'
+import stage1 from '../Stage/stage1'
 import Player from '../Entities/player'
 import Input from '../input'
 import keyConfig from '../Config/keyConfig'
@@ -15,7 +16,7 @@ export default class MainScene extends BaseScene {
   }
   update() {
     this.updateAllEntities()
-    if (Input.isKeyPressed(keyConfig.escape)) {
+    if (Input.isKeyPressed(keyConfig.ESCAPE)) {
       this.pop()
       this.push(new TitleScene())
     }
