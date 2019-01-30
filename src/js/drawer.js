@@ -19,8 +19,10 @@ export default class Drawer {
     return new Promise(resolve => {
       this.loader.onComplete.add(resolve)
       this.loader
-        .add(require('../assets/blanc.json'))
-        .add(require('../assets/map1.json'))
+        .add(require('../assets/json/blanc/blanc.json'))
+        .add(require('../assets/json/blanc/runRight.json'))
+        .add(require('../assets/json/blanc/runLeft.json'))
+        .add(require('../assets/json/map1.json'))
         .load(() => Drawer.onLoaded())
     })
   }

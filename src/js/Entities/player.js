@@ -1,7 +1,7 @@
-import BaseEntity from './BaseEntity'
-import Drawer from 'js/Drawer'
-import Input from 'js/Input'
-import KeyConfig from 'js/Config/KeyConfig'
+import BaseEntity from './baseEntity'
+import Drawer from 'js/drawer'
+import Input from 'js/input'
+import KeyConfig from 'js/Config/keyConfig'
 
 export default class Player extends BaseEntity {
   constructor({ camera, x, y }) {
@@ -80,5 +80,8 @@ export default class Player extends BaseEntity {
   applyVelocity() {
     this.sprite.x += this.vel.x
     this.sprite.y += this.vel.y
+  }
+  destroy() {
+    this.sprite.destroy()
   }
 }

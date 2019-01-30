@@ -1,4 +1,4 @@
-import Drawer from 'js/Drawer'
+import Drawer from 'js/drawer'
 
 export default class Camera{
   constructor(){

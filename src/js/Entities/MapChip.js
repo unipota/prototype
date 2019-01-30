@@ -1,5 +1,5 @@
-import BaseEntity from './BaseEntity'
-import Drawer from 'js/Drawer'
+import BaseEntity from './baseEntity'
+import Drawer from 'js/drawer'
 
 export default class MapChip extends BaseEntity {
   constructor({ camera, id, x, y }) {
@@ -8,5 +8,8 @@ export default class MapChip extends BaseEntity {
     this.sprite.x = x
     this.sprite.y = y
     camera.addChild(this.sprite)
+  }
+  destroy() {
+    this.sprite.destroy()
   }
 }

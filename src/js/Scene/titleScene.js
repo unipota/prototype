@@ -1,7 +1,7 @@
-import BaseScene from './BaseScene'
-import MainScene from './MainScene'
-import Input from '../Input'
-import Drawer from '../Drawer'
+import BaseScene from './baseScene'
+import MainScene from './mainScene'
+import Input from '../input'
+import Drawer from '../drawer'
 
 export default class TitleScene extends BaseScene {
   constructor() {

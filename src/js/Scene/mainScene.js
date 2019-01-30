@@ -1,11 +1,11 @@
-import BaseScene from './BaseScene'
-import stage1 from 'js/Stage/Stage1'
-import Player from 'js/Entities/Player'
-import MapChip from 'js/Entities/MapChip'
-import Input from 'js/Input'
-import keyConfig from 'js/Config/KeyConfig'
-import TitleScene from './TitleScene'
-import Drawer from 'js/Drawer'
+import BaseScene from './baseScene'
+import stage1 from 'js/Stage/stage1'
+import Player from 'js/Entities/player'
+import MapChip from 'js/Entities/mapChip'
+import Input from 'js/input'
+import keyConfig from 'js/Config/keyConfig'
+import TitleScene from './titleScene'
+import Drawer from 'js/drawer'
 
 export default class MainScene extends BaseScene {
   constructor() {
@@ -50,6 +50,11 @@ export default class MainScene extends BaseScene {
   updateAllEntities() {
     this.entities.forEach(e => {
       e.update()
+    })
+  }
+  destroyAllEntities() {
+    this.entities.forEach(e => {
+      e.destroy()
     })
   }
 }

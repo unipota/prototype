@@ -1,6 +1,6 @@
-import Scene from 'js/Scene'
-import Input from 'js/Input'
-import Drawer from 'js/Drawer'
+import Scene from 'js/scene'
+import Input from 'js/input'
+import Drawer from 'js/drawer'
 
 export default class BaseScene {
   constructor() {
@@ -13,6 +13,7 @@ export default class BaseScene {
   }
   pop() {
     Drawer.removeFromRoot(this.stage)
+    this.stage.destroy()
     Scene.pop()
   }
   update() {}
