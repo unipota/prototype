@@ -25,7 +25,7 @@ module.exports = {
   devServer: {
     contentBase: __dirname + '/public',
     watchContentBase: true,
-    port: 1234
+    port: 1235
   },
   resolve: {
     alias: {
@@ -40,7 +40,7 @@ module.exports = {
       { from: 'src/assets/img', to: 'public/assets/img' }
     ]),
     new PrettierPlugin({
-      printWidth: 80,         
+      printWidth: 80,
       tabWidth: 2,
       useTabs: false,
       semi: false,
