@@ -37,19 +37,19 @@ export default class Player extends BaseEntity {
   }
   moveByInput() {
     if (Input.isKeyPressed(KeyConfig.LEFT)) {
-      this.vel.x -= 0.1
+      this.vel.x -= 0.08
       this.sprite.texture = Drawer.textures.mychara.left
     }
     if (Input.isKeyPressed(KeyConfig.UP)) {
-      this.vel.y -= 0.1
+      this.vel.y -= 0.08
       this.sprite.texture = Drawer.textures.mychara.up
     }
     if (Input.isKeyPressed(KeyConfig.RIGHT)) {
-      this.vel.x += 0.1
-      this.sprite.texture = Drawer.textures.mychara.right
+      this.vel.x += 0.08
+      this.sprite.texture = Drawer.textures.mychara.run.right[1]
     }
     if (Input.isKeyPressed(KeyConfig.DOWN)) {
-      this.vel.y += 0.1
+      this.vel.y += 0.08
       this.sprite.texture = Drawer.textures.mychara.down
     }
   }
@@ -61,20 +61,20 @@ export default class Player extends BaseEntity {
   }
   resistVelocity() {
     this.vel.x =
-      Math.abs(this.vel.x) < 0.1
+      Math.abs(this.vel.x) < 0.05
         ? 0
         : this.vel.x > 0
-        ? this.vel.x - 0.05
+        ? this.vel.x - 0.03
         : this.vel.x < 0
-        ? this.vel.x + 0.05
+        ? this.vel.x + 0.03
         : this.vel.x
     this.vel.y =
-      Math.abs(this.vel.y) < 0.1
+      Math.abs(this.vel.y) < 0.05
         ? 0
         : this.vel.y > 0
-        ? this.vel.y - 0.05
+        ? this.vel.y - 0.03
         : this.vel.y < 0
-        ? this.vel.y + 0.05
+        ? this.vel.y + 0.03
         : this.vel.y
   }
   applyVelocity() {
