@@ -1,7 +1,7 @@
 import BaseEntity from './baseEntity'
-import Drawer from 'js/drawer'
-import Input from 'js/input'
-import KeyConfig from 'js/Config/keyConfig'
+import Drawer from '../drawer'
+import Input from '../input'
+import KeyConfig from '../Config/keyConfig'
 
 export default class Player extends BaseEntity {
   constructor({ camera, x, y }) {

@@ -1,11 +1,11 @@
 import BaseScene from './baseScene'
-import stage1 from 'js/Stage/stage1'
-import Player from 'js/Entities/player'
-import MapChip from 'js/Entities/mapChip'
-import Input from 'js/input'
-import keyConfig from 'js/Config/keyConfig'
+import stage1 from '../Stage/stage1'
+import Player from '../Entities/player'
+import MapChip from '../Entities/mapChip'
+import Input from '../input'
+import keyConfig from '../Config/keyConfig'
 import TitleScene from './titleScene'
-import Drawer from 'js/drawer'
+import Drawer from '../drawer'
 
 export default class MainScene extends BaseScene {
   constructor() {
