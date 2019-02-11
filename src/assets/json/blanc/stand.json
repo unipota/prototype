@@ -1,5 +1,5 @@
 { "frames": {
-   "blanc (Layer) #stand 0.aseprite": {
+   "blanc #stand 0.aseprite": {
     "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "blanc (Layer) #stand 1.aseprite": {
+   "blanc #stand 1.aseprite": {
     "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "blanc (Layer) #stand 2.aseprite": {
+   "blanc #stand 2.aseprite": {
     "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "blanc (Layer) #stand 3.aseprite": {
+   "blanc #stand 3.aseprite": {
     "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -35,7 +35,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.9-x64",
-  "image": "C:\\Users\\winni\\Pictures\\pixelart\\blanc\\stand.png",
+  "image": "assets/img/blanc/stand.png",
   "format": "I8",
   "size": { "w": 128, "h": 32 },
   "scale": "1",

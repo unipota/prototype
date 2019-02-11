@@ -2,7 +2,7 @@ import './settings'
 import Drawer from './drawer'
 import Input from './input'
 import Scene from './scene'
-import Asstes from './assets'
+import Assets from './assets'
 import TitleScene from './Scene/titleScene'
 
 class Game {
@@ -10,7 +10,7 @@ class Game {
     Drawer.init()
     Input.init()
     Scene.init()
-    Asstes.init()
+    Assets.init()
     await Drawer.load()
     console.log('Assets loaded')
 

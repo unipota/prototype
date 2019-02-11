@@ -7,7 +7,11 @@ import Assets from '../assets'
 export default class Player extends BaseEntity {
   constructor({ camera, x, y }) {
     super()
-    this.sprite = Drawer.makeSprite(Assets.textures.mychara.down)
+    this.state = {
+      direction: 'down',
+      behavior: 'stand'
+    }
+    this.sprite = Drawer.makeSprite(Assets.textures.mychara.stand.down)
     this.sprite.x = x
     this.sprite.y = y
     this.camera = camera
@@ -28,6 +32,54 @@ export default class Player extends BaseEntity {
     this.limitVelocity()
     this.applyVelocity()
 
+    this.updateState()
+    this.updateTexture()
+
+    this.moveCamera()
+  }
+  updateState() {
+    switch (this.state.behavior) {
+      case 'stand':
+        if (Input.isKeyPressed(keyCodes.UP)) {
+          this.state.direction = 'up'
+        }
+        if (Input.isKeyPressed(keyCodes.DOWN)) {
+          this.state.direction = 'down'
+        }
+        if (Input.isKeyPressed(keyCodes.LEFT)) {
+          this.state.direction = 'left'
+        }
+        if (Input.isKeyPressed(keyCodes.RIGHT)) {
+          this.state.direction = 'right'
+        }
+        break
+      case 'run':
+        break
+    }
+  }
+  updateTexture() {
+    switch (this.state.behavior) {
+      case 'stand':
+        switch (this.state.direction) {
+          case 'down':
+            this.sprite.texture = Assets.textures.mychara.stand.down
+            break
+          case 'up':
+            this.sprite.texture = Assets.textures.mychara.stand.up
+            break
+          case 'left':
+            this.sprite.texture = Assets.textures.mychara.stand.left
+            break
+          case 'right':
+            this.sprite.texture = Assets.textures.mychara.stand.right
+            break
+        }
+        break
+      case 'run':
+        break
+    }
+  }
+  moveCamera() {
     const targetX = this.sprite.x + this.sprite.width / 2
     const targetY = this.sprite.y + this.sprite.height / 2
 
@@ -39,19 +91,15 @@ export default class Player extends BaseEntity {
   moveByInput() {
     if (Input.isKeyPressed(keyCodes.LEFT)) {
       this.vel.x -= 0.08
-      this.sprite.texture = Assets.textures.mychara.left
     }
     if (Input.isKeyPressed(keyCodes.UP)) {
       this.vel.y -= 0.08
-      this.sprite.texture = Assets.textures.mychara.up
     }
     if (Input.isKeyPressed(keyCodes.RIGHT)) {
       this.vel.x += 0.08
-      this.sprite.texture = Assets.textures.mychara.right
     }
     if (Input.isKeyPressed(keyCodes.DOWN)) {
       this.vel.y += 0.08
-      this.sprite.texture = Assets.textures.mychara.down
     }
   }
   limitVelocity() {

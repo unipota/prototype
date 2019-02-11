@@ -2,7 +2,7 @@ export default class Assets {
   static init() {
     this.textures = {}
     this.fileNames = [
-      'blanc/blanc.json',
+      'blanc/stand.json',
       'blanc/runRight.json',
       'blanc/runLeft.json',
       'blanc/runDown.json',
@@ -13,10 +13,12 @@ export default class Assets {
   static makeTextureFromFrame() {
     this.textures = {
       mychara: {
-        down: PIXI.Texture.fromFrame('blanc 0.aseprite'),
-        right: PIXI.Texture.fromFrame('blanc 1.aseprite'),
-        up: PIXI.Texture.fromFrame('blanc 2.aseprite'),
-        left: PIXI.Texture.fromFrame('blanc 3.aseprite'),
+        stand: {
+          down: PIXI.Texture.fromFrame('blanc #stand 0.aseprite'),
+          right: PIXI.Texture.fromFrame('blanc #stand 1.aseprite'),
+          up: PIXI.Texture.fromFrame('blanc #stand 2.aseprite'),
+          left: PIXI.Texture.fromFrame('blanc #stand 3.aseprite')
+        },
         run: {
           right: [
             PIXI.Texture.fromFrame('blanc #runRight 0.aseprite'),

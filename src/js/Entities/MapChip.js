@@ -2,7 +2,7 @@ import BaseEntity from './baseEntity'
 import Drawer from 'js/drawer'
 import Assets from '../assets'
 
-export default class MapChip extends BaseEntity {
+export default class mapChip extends BaseEntity {
   constructor({ camera, id, x, y }) {
     super()
     this.sprite = Drawer.makeSprite(Assets.textures.mapChip[id])

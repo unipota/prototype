@@ -1,4 +1,4 @@
-export default class BaseEntity {
+export default class baseEntity {
   constructor() {}
   update() {}
   destroy() {}
