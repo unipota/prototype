@@ -1,12 +1,13 @@
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Input from '../input'
-import KeyConfig from '../Config/keyConfig'
+import { keyCodes } from '../Config/keyConfig'
+import Assets from '../assets'
 
 export default class Player extends BaseEntity {
   constructor({ camera, x, y }) {
     super()
-    this.sprite = Drawer.makeSprite(Drawer.textures.mychara.down)
+    this.sprite = Drawer.makeSprite(Assets.textures.mychara.down)
     this.sprite.x = x
     this.sprite.y = y
     this.camera = camera
@@ -36,21 +37,21 @@ export default class Player extends BaseEntity {
       (targetY - this.camera.pivot.y) * 0.06 + this.camera.pivot.y
   }
   moveByInput() {
-    if (Input.isKeyPressed(KeyConfig.LEFT)) {
+    if (Input.isKeyPressed(keyCodes.LEFT)) {
       this.vel.x -= 0.08
-      this.sprite.texture = Drawer.textures.mychara.left
+      this.sprite.texture = Assets.textures.mychara.left
     }
-    if (Input.isKeyPressed(KeyConfig.UP)) {
+    if (Input.isKeyPressed(keyCodes.UP)) {
       this.vel.y -= 0.08
-      this.sprite.texture = Drawer.textures.mychara.up
+      this.sprite.texture = Assets.textures.mychara.up
     }
-    if (Input.isKeyPressed(KeyConfig.RIGHT)) {
+    if (Input.isKeyPressed(keyCodes.RIGHT)) {
       this.vel.x += 0.08
-      this.sprite.texture = Drawer.textures.mychara.run.right[1]
+      this.sprite.texture = Assets.textures.mychara.right
     }
-    if (Input.isKeyPressed(KeyConfig.DOWN)) {
+    if (Input.isKeyPressed(keyCodes.DOWN)) {
       this.vel.y += 0.08
-      this.sprite.texture = Drawer.textures.mychara.down
+      this.sprite.texture = Assets.textures.mychara.down
     }
   }
   limitVelocity() {

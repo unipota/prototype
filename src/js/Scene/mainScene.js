@@ -3,7 +3,7 @@ import stage1 from '../Stage/stage1'
 import Player from '../Entities/player'
 import MapChip from '../Entities/mapChip'
 import Input from '../input'
-import keyConfig from '../Config/keyConfig'
+import { keyCodes } from '../Config/keyConfig'
 import TitleScene from './titleScene'
 import Drawer from '../drawer'
 
@@ -42,7 +42,7 @@ export default class MainScene extends BaseScene {
   }
   update() {
     this.updateAllEntities()
-    if (Input.isKeyPressed(keyConfig.ESCAPE)) {
+    if (Input.isKeyPressed(keyCodes.ESCAPE)) {
       this.pop()
       this.push(new TitleScene())
     }
