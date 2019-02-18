@@ -22,7 +22,9 @@ export default class Drawer {
       Assets.fileNames.forEach(f => {
         this.loader.add(require(`../assets/json/${f}`))
       })
-      this.loader.load(() => Assets.makeTextureFromFrame())
+      this.loader.on('progress', (loader, resource) => {})
+      this.loader.on('complete', () => Assets.makeTextureFromFrame())
+      this.loader.load()
     })
   }
   static makeSprite(defaultTexture) {

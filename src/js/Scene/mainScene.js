@@ -50,6 +50,7 @@ export default class MainScene extends BaseScene {
   updateAllEntities() {
     this.entities.forEach(e => {
       e.update()
+      e.frame++
     })
   }
   destroyAllEntities() {

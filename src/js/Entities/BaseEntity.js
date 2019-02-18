@@ -1,5 +1,7 @@
 export default class baseEntity {
-  constructor() {}
+  constructor() {
+    this.frame = 0
+  }
   update() {}
   destroy() {}
 }

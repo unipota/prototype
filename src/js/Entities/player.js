@@ -17,17 +17,13 @@ export default class Player extends BaseEntity {
     this.camera = camera
     camera.addChild(this.sprite)
 
-    this.acc = {
-      x: 0,
-      y: 0
-    }
     this.vel = {
       x: 0,
       y: 0
     }
+    this.anime = 0
   }
   update() {
-    this.moveByInput()
     this.resistVelocity()
     this.limitVelocity()
     this.applyVelocity()
@@ -42,18 +38,84 @@ export default class Player extends BaseEntity {
       case 'stand':
         if (Input.isKeyPressed(keyCodes.UP)) {
           this.state.direction = 'up'
+          this.state.behavior = 'run'
         }
         if (Input.isKeyPressed(keyCodes.DOWN)) {
           this.state.direction = 'down'
+          this.state.behavior = 'run'
         }
         if (Input.isKeyPressed(keyCodes.LEFT)) {
           this.state.direction = 'left'
+          this.state.behavior = 'run'
         }
         if (Input.isKeyPressed(keyCodes.RIGHT)) {
           this.state.direction = 'right'
+          this.state.behavior = 'run'
         }
         break
       case 'run':
+        switch (this.state.direction) {
+          case 'up':
+            if (Input.isKeyPressed(keyCodes.UP)) {
+              this.vel.y -= 0.8
+              this.anime = Math.ceil(this.frame / 10) % 6
+            }
+            if (Input.isKeyPressed(keyCodes.DOWN)) {
+              this.state.direction = 'down'
+            }
+            if (Input.isKeyPressed(keyCodes.LEFT)) {
+              this.state.direction = 'left'
+            }
+            if (Input.isKeyPressed(keyCodes.RIGHT)) {
+              this.state.direction = 'right'
+            }
+            break
+          case 'down':
+            if (Input.isKeyPressed(keyCodes.DOWN)) {
+              this.vel.y += 0.8
+              this.anime = Math.ceil(this.frame / 10) % 6
+            }
+            if (Input.isKeyPressed(keyCodes.UP)) {
+              this.state.direction = 'up'
+            }
+            if (Input.isKeyPressed(keyCodes.LEFT)) {
+              this.state.direction = 'left'
+            }
+            if (Input.isKeyPressed(keyCodes.RIGHT)) {
+              this.state.direction = 'right'
+            }
+            break
+          case 'left':
+            if (Input.isKeyPressed(keyCodes.LEFT)) {
+              this.vel.x -= 0.8
+              this.anime = Math.ceil(this.frame / 10) % 6
+            }
+            if (Input.isKeyPressed(keyCodes.UP)) {
+              this.state.direction = 'up'
+            }
+            if (Input.isKeyPressed(keyCodes.DOWN)) {
+              this.state.direction = 'down'
+            }
+            if (Input.isKeyPressed(keyCodes.RIGHT)) {
+              this.state.direction = 'right'
+            }
+            break
+          case 'right':
+            if (Input.isKeyPressed(keyCodes.RIGHT)) {
+              this.vel.x += 0.8
+              this.anime = Math.ceil(this.frame / 10) % 6
+            }
+            if (Input.isKeyPressed(keyCodes.UP)) {
+              this.state.direction = 'up'
+            }
+            if (Input.isKeyPressed(keyCodes.DOWN)) {
+              this.state.direction = 'down'
+            }
+            if (Input.isKeyPressed(keyCodes.LEFT)) {
+              this.state.direction = 'left'
+            }
+            break
+        }
         break
     }
   }
@@ -61,11 +123,11 @@ export default class Player extends BaseEntity {
     switch (this.state.behavior) {
       case 'stand':
         switch (this.state.direction) {
-          case 'down':
-            this.sprite.texture = Assets.textures.mychara.stand.down
-            break
           case 'up':
             this.sprite.texture = Assets.textures.mychara.stand.up
+            break
+          case 'down':
+            this.sprite.texture = Assets.textures.mychara.stand.down
             break
           case 'left':
             this.sprite.texture = Assets.textures.mychara.stand.left
@@ -76,6 +138,20 @@ export default class Player extends BaseEntity {
         }
         break
       case 'run':
+        switch (this.state.direction) {
+          case 'up':
+            this.sprite.texture = Assets.textures.mychara.run.up[this.anime]
+            break
+          case 'down':
+            this.sprite.texture = Assets.textures.mychara.run.down[this.anime]
+            break
+          case 'left':
+            this.sprite.texture = Assets.textures.mychara.run.left[this.anime]
+            break
+          case 'right':
+            this.sprite.texture = Assets.textures.mychara.run.right[this.anime]
+            break
+        }
         break
     }
   }
