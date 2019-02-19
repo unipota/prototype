@@ -103,7 +103,7 @@ export default class Player extends BaseEntity {
           case 'right':
             if (Input.isKeyPressed(keyCodes.RIGHT)) {
               this.vel.x += 0.8
-              this.anime = Math.ceil(this.frame / 10) % 6
+              this.anime = Math.ceil(this.frame / 2) % 6
             }
             if (Input.isKeyPressed(keyCodes.UP)) {
               this.state.direction = 'up'
