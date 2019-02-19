@@ -5,4 +5,3 @@ export default class baseEntity {
   update() {}
   destroy() {}
 }
-
