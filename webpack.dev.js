@@ -40,7 +40,7 @@ module.exports = {
       { from: 'src/assets/img', to: './public/assets/img' }
     ]),
     new PrettierPlugin({
-      printWidth: 80,
+      printWidth: 100,
       tabWidth: 2,
       useTabs: false,
       semi: false,

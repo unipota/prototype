@@ -1,4 +1,4 @@
-export const keyCodes = {
+export const KEY = {
   LEFT: 37,
   UP: 38,
   RIGHT: 39,

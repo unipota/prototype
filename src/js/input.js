@@ -40,11 +40,19 @@ export default class Input {
     }
     return false
   }
-  static isAnyKeyPressed() {
-    for (let k in this.pressedKey) {
-      if (this.pressedKey[k]) return true
+  static isAnyKeyPressed(...keyCodes) {
+    if (keyCodes.length > 0) {
+      let result = false
+      keyCodes.forEach(k => {
+        if (this.isKeyPressed(k)) result = true
+      })
+      return result
+    } else {
+      for (let k in this.pressedKey) {
+        if (this.pressedKey[k]) return true
+      }
+      return false
     }
-    return false
   }
   static resetKeys() {
     this.pressedKey = {}

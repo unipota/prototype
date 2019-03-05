@@ -1,25 +1,48 @@
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Input from '../input'
-import { keyCodes } from '../Config/keyConfig'
+import { KEY } from '../Config/keyConfig'
 import Assets from '../assets'
+
+const PARAMS = {
+  DEFAULT_PLAYER_POS: { x: 0, y: 0 },
+  RUN_SPEED: 0.8,
+  RUN_ANIMATION_FRAME: 6,
+  ANIMATION_PER_FRAME: 10
+}
+
+const BEHAVIOR = {
+  STAND: 'STAND',
+  RUN: 'RUN'
+}
+
+const DIRECTION = {
+  UP: 'UP',
+  UP_RIGHT: 'UP_RIGHT',
+  UP_LEFT: 'UP_LEFT',
+  RIGHT: 'RIGHT',
+  LEFT: 'LEFT',
+  DOWN: 'DOWN',
+  DOWN_RIGHT: 'DOWN_RIGHT',
+  DOWN_LEFT: 'DOWN_LEFT'
+}
 
 export default class Player extends BaseEntity {
   constructor({ camera, x, y }) {
     super()
     this.state = {
-      direction: 'down',
-      behavior: 'stand'
+      direction: DIRECTION.DOWN,
+      behavior: BEHAVIOR.STAND
     }
-    this.sprite = Drawer.makeSprite(Assets.textures.mychara.stand.down)
+    this.sprite = Drawer.makeSprite(Assets.textures.mychara.STAND.DOWN[0])
     this.sprite.x = x
     this.sprite.y = y
     this.camera = camera
     camera.addChild(this.sprite)
 
     this.vel = {
-      x: 0,
-      y: 0
+      x: PARAMS.DEFAULT_PLAYER_POS.x,
+      y: PARAMS.DEFAULT_PLAYER_POS.y
     }
     this.anime = 0
   }
@@ -27,131 +50,108 @@ export default class Player extends BaseEntity {
     this.resistVelocity()
     this.limitVelocity()
     this.applyVelocity()
-
     this.updateState()
     this.updateTexture()
-
     this.moveCamera()
   }
   updateState() {
+    const nextState = { behavior: this.state.behavior, direction: this.state.direction }
+    this.updateDirection(nextState)
+    this.updateBehavior(nextState)
+    this.state = nextState
+  }
+  updateDirection(nextState) {
+    if (Input.isKeyPressed(KEY.UP)) {
+      nextState.direction = DIRECTION.UP
+      if (Input.isKeyPressed(KEY.RIGHT)) nextState.direction = DIRECTION.UP_RIGHT
+      if (Input.isKeyPressed(KEY.LEFT)) nextState.direction = DIRECTION.UP_LEFT
+      return
+    }
+    if (Input.isKeyPressed(KEY.DOWN)) {
+      nextState.direction = DIRECTION.DOWN
+      if (Input.isKeyPressed(KEY.RIGHT)) nextState.direction = DIRECTION.DOWN_RIGHT
+      if (Input.isKeyPressed(KEY.LEFT)) nextState.direction = DIRECTION.DOWN_LEFT
+      return
+    }
+    if (Input.isKeyPressed(KEY.RIGHT)) nextState.direction = DIRECTION.RIGHT
+    if (Input.isKeyPressed(KEY.LEFT)) nextState.direction = DIRECTION.LEFT
+  }
+  updateBehavior(nextState) {
     switch (this.state.behavior) {
-      case 'stand':
-        if (Input.isKeyPressed(keyCodes.UP)) {
-          this.state.direction = 'up'
-          this.state.behavior = 'run'
-        }
-        if (Input.isKeyPressed(keyCodes.DOWN)) {
-          this.state.direction = 'down'
-          this.state.behavior = 'run'
-        }
-        if (Input.isKeyPressed(keyCodes.LEFT)) {
-          this.state.direction = 'left'
-          this.state.behavior = 'run'
-        }
-        if (Input.isKeyPressed(keyCodes.RIGHT)) {
-          this.state.direction = 'right'
-          this.state.behavior = 'run'
+      case BEHAVIOR.STAND:
+        if (Input.isAnyKeyPressed(KEY.UP, KEY.RIGHT, KEY.DOWN, KEY.LEFT)) {
+          nextState.behavior = BEHAVIOR.RUN
         }
         break
-      case 'run':
-        switch (this.state.direction) {
-          case 'up':
-            if (Input.isKeyPressed(keyCodes.UP)) {
-              this.vel.y -= 0.8
-              this.anime = Math.ceil(this.frame / 10) % 6
-            }
-            if (Input.isKeyPressed(keyCodes.DOWN)) {
-              this.state.direction = 'down'
-            }
-            if (Input.isKeyPressed(keyCodes.LEFT)) {
-              this.state.direction = 'left'
-            }
-            if (Input.isKeyPressed(keyCodes.RIGHT)) {
-              this.state.direction = 'right'
-            }
-            break
-          case 'down':
-            if (Input.isKeyPressed(keyCodes.DOWN)) {
-              this.vel.y += 0.8
-              this.anime = Math.ceil(this.frame / 10) % 6
-            }
-            if (Input.isKeyPressed(keyCodes.UP)) {
-              this.state.direction = 'up'
-            }
-            if (Input.isKeyPressed(keyCodes.LEFT)) {
-              this.state.direction = 'left'
-            }
-            if (Input.isKeyPressed(keyCodes.RIGHT)) {
-              this.state.direction = 'right'
-            }
-            break
-          case 'left':
-            if (Input.isKeyPressed(keyCodes.LEFT)) {
-              this.vel.x -= 0.8
-              this.anime = Math.ceil(this.frame / 10) % 6
-            }
-            if (Input.isKeyPressed(keyCodes.UP)) {
-              this.state.direction = 'up'
-            }
-            if (Input.isKeyPressed(keyCodes.DOWN)) {
-              this.state.direction = 'down'
-            }
-            if (Input.isKeyPressed(keyCodes.RIGHT)) {
-              this.state.direction = 'right'
-            }
-            break
-          case 'right':
-            if (Input.isKeyPressed(keyCodes.RIGHT)) {
-              this.vel.x += 0.8
-              this.anime = Math.ceil(this.frame / 2) % 6
-            }
-            if (Input.isKeyPressed(keyCodes.UP)) {
-              this.state.direction = 'up'
-            }
-            if (Input.isKeyPressed(keyCodes.DOWN)) {
-              this.state.direction = 'down'
-            }
-            if (Input.isKeyPressed(keyCodes.LEFT)) {
-              this.state.direction = 'left'
-            }
-            break
+      case BEHAVIOR.RUN:
+        if (!Input.isAnyKeyPressed(KEY.UP, KEY.RIGHT, KEY.DOWN, KEY.LEFT)) {
+          nextState.behavior = BEHAVIOR.STAND
+          break
         }
+        if (this.state.direction === nextState.direction) {
+          this.anime =
+            Math.ceil(this.frame / PARAMS.ANIMATION_PER_FRAME) % PARAMS.RUN_ANIMATION_FRAME
+          this.handleRunBehavior(nextState)
+        }
+    }
+  }
+  handleRunBehavior(nextState) {
+    switch (nextState.direction) {
+      case DIRECTION.UP:
+        this.vel.y -= PARAMS.RUN_SPEED
+        break
+      case DIRECTION.UP_RIGHT:
+        this.vel.x += PARAMS.RUN_SPEED / 1.4
+        this.vel.y -= PARAMS.RUN_SPEED / 1.4
+        break
+      case DIRECTION.UP_LEFT:
+        this.vel.x -= PARAMS.RUN_SPEED / 1.4
+        this.vel.y -= PARAMS.RUN_SPEED / 1.4
+        break
+      case DIRECTION.RIGHT:
+        this.vel.x += PARAMS.RUN_SPEED
+        break
+      case DIRECTION.LEFT:
+        this.vel.x -= PARAMS.RUN_SPEED
+        break
+      case DIRECTION.DOWN:
+        this.vel.y += PARAMS.RUN_SPEED
+        break
+      case DIRECTION.DOWN_RIGHT:
+        this.vel.x += PARAMS.RUN_SPEED / 1.4
+        this.vel.y += PARAMS.RUN_SPEED / 1.4
+        break
+      case DIRECTION.DOWN_LEFT:
+        this.vel.x -= PARAMS.RUN_SPEED / 1.4
+        this.vel.y += PARAMS.RUN_SPEED / 1.4
         break
     }
   }
   updateTexture() {
     switch (this.state.behavior) {
-      case 'stand':
+      case BEHAVIOR.STAND:
         switch (this.state.direction) {
-          case 'up':
-            this.sprite.texture = Assets.textures.mychara.stand.up
+          case DIRECTION.UP:
+          case DIRECTION.UP_RIGHT:
+            this.sprite.texture = Assets.textures.mychara.STAND.UP[0]
             break
-          case 'down':
-            this.sprite.texture = Assets.textures.mychara.stand.down
+          case DIRECTION.RIGHT:
+          case DIRECTION.DOWN_RIGHT:
+            this.sprite.texture = Assets.textures.mychara.STAND.RIGHT[0]
             break
-          case 'left':
-            this.sprite.texture = Assets.textures.mychara.stand.left
+          case DIRECTION.DOWN:
+          case DIRECTION.DOWN_LEFT:
+            this.sprite.texture = Assets.textures.mychara.STAND.DOWN[0]
             break
-          case 'right':
-            this.sprite.texture = Assets.textures.mychara.stand.right
+          case DIRECTION.LEFT:
+          case DIRECTION.UP_LEFT:
+            this.sprite.texture = Assets.textures.mychara.STAND.LEFT[0]
             break
         }
         break
-      case 'run':
-        switch (this.state.direction) {
-          case 'up':
-            this.sprite.texture = Assets.textures.mychara.run.up[this.anime]
-            break
-          case 'down':
-            this.sprite.texture = Assets.textures.mychara.run.down[this.anime]
-            break
-          case 'left':
-            this.sprite.texture = Assets.textures.mychara.run.left[this.anime]
-            break
-          case 'right':
-            this.sprite.texture = Assets.textures.mychara.run.right[this.anime]
-            break
-        }
+      case BEHAVIOR.RUN:
+        this.sprite.texture =
+          Assets.textures.mychara[this.state.behavior][this.state.direction][this.anime]
         break
     }
   }
@@ -159,30 +159,12 @@ export default class Player extends BaseEntity {
     const targetX = this.sprite.x + this.sprite.width / 2
     const targetY = this.sprite.y + this.sprite.height / 2
 
-    this.camera.pivot.x =
-      (targetX - this.camera.pivot.x) * 0.06 + this.camera.pivot.x
-    this.camera.pivot.y =
-      (targetY - this.camera.pivot.y) * 0.06 + this.camera.pivot.y
-  }
-  moveByInput() {
-    if (Input.isKeyPressed(keyCodes.LEFT)) {
-      this.vel.x -= 0.08
-    }
-    if (Input.isKeyPressed(keyCodes.UP)) {
-      this.vel.y -= 0.08
-    }
-    if (Input.isKeyPressed(keyCodes.RIGHT)) {
-      this.vel.x += 0.08
-    }
-    if (Input.isKeyPressed(keyCodes.DOWN)) {
-      this.vel.y += 0.08
-    }
+    this.camera.pivot.x = (targetX - this.camera.pivot.x) * 0.06 + this.camera.pivot.x
+    this.camera.pivot.y = (targetY - this.camera.pivot.y) * 0.06 + this.camera.pivot.y
   }
   limitVelocity() {
-    this.vel.x =
-      this.vel.x > 0 ? Math.min(this.vel.x, 1) : Math.max(this.vel.x, -1)
-    this.vel.y =
-      this.vel.y > 0 ? Math.min(this.vel.y, 1) : Math.max(this.vel.y, -1)
+    this.vel.x = this.vel.x > 0 ? Math.min(this.vel.x, 1) : Math.max(this.vel.x, -1)
+    this.vel.y = this.vel.y > 0 ? Math.min(this.vel.y, 1) : Math.max(this.vel.y, -1)
   }
   resistVelocity() {
     this.vel.x =
