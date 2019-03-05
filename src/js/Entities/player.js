@@ -5,8 +5,9 @@ import { KEY } from '../Config/keyConfig'
 import Assets from '../assets'
 
 const PARAMS = {
-  DEFAULT_PLAYER_POS: { x: 0, y: 0 },
-  RUN_SPEED: 0.8,
+  RUN_SPEED: 0.3,
+  RUN_SPEED_LIMIT: 2,
+  RUN_RESIST: 0.03,
   RUN_ANIMATION_FRAME: 6,
   ANIMATION_PER_FRAME: 10
 }
@@ -41,8 +42,8 @@ export default class Player extends BaseEntity {
     camera.addChild(this.sprite)
 
     this.vel = {
-      x: PARAMS.DEFAULT_PLAYER_POS.x,
-      y: PARAMS.DEFAULT_PLAYER_POS.y
+      x: 0,
+      y: 0
     }
     this.anime = 0
   }
@@ -82,6 +83,7 @@ export default class Player extends BaseEntity {
         if (Input.isAnyKeyPressed(KEY.UP, KEY.RIGHT, KEY.DOWN, KEY.LEFT)) {
           nextState.behavior = BEHAVIOR.RUN
         }
+        this.handleStandBehavior(nextState)
         break
       case BEHAVIOR.RUN:
         if (!Input.isAnyKeyPressed(KEY.UP, KEY.RIGHT, KEY.DOWN, KEY.LEFT)) {
@@ -94,6 +96,10 @@ export default class Player extends BaseEntity {
           this.handleRunBehavior(nextState)
         }
     }
+  }
+  handleStandBehavior(nextState) {
+    this.vel.x = 0
+    this.vel.y = 0
   }
   handleRunBehavior(nextState) {
     switch (nextState.direction) {
@@ -159,29 +165,35 @@ export default class Player extends BaseEntity {
     const targetX = this.sprite.x + this.sprite.width / 2
     const targetY = this.sprite.y + this.sprite.height / 2
 
-    this.camera.pivot.x = (targetX - this.camera.pivot.x) * 0.06 + this.camera.pivot.x
-    this.camera.pivot.y = (targetY - this.camera.pivot.y) * 0.06 + this.camera.pivot.y
+    this.camera.pivot.x = (targetX - this.camera.pivot.x) * 0.04 + this.camera.pivot.x
+    this.camera.pivot.y = (targetY - this.camera.pivot.y) * 0.04 + this.camera.pivot.y
   }
   limitVelocity() {
-    this.vel.x = this.vel.x > 0 ? Math.min(this.vel.x, 1) : Math.max(this.vel.x, -1)
-    this.vel.y = this.vel.y > 0 ? Math.min(this.vel.y, 1) : Math.max(this.vel.y, -1)
+    this.vel.x =
+      this.vel.x > 0
+        ? Math.min(this.vel.x, PARAMS.RUN_SPEED_LIMIT)
+        : Math.max(this.vel.x, -1 * PARAMS.RUN_SPEED_LIMIT)
+    this.vel.y =
+      this.vel.y > 0
+        ? Math.min(this.vel.y, PARAMS.RUN_SPEED_LIMIT)
+        : Math.max(this.vel.y, -1 * PARAMS.RUN_SPEED_LIMIT)
   }
   resistVelocity() {
     this.vel.x =
-      Math.abs(this.vel.x) < 0.05
+      Math.abs(this.vel.x) < PARAMS.RUN_RESIST + 0.001
         ? 0
         : this.vel.x > 0
-        ? this.vel.x - 0.03
+        ? this.vel.x - PARAMS.RUN_RESIST
         : this.vel.x < 0
-        ? this.vel.x + 0.03
+        ? this.vel.x + PARAMS.RUN_RESIST
         : this.vel.x
     this.vel.y =
-      Math.abs(this.vel.y) < 0.05
+      Math.abs(this.vel.y) < PARAMS.RUN_RESIST + 0.001
         ? 0
         : this.vel.y > 0
-        ? this.vel.y - 0.03
+        ? this.vel.y - PARAMS.RUN_RESIST
         : this.vel.y < 0
-        ? this.vel.y + 0.03
+        ? this.vel.y + PARAMS.RUN_RESIST
         : this.vel.y
   }
   applyVelocity() {

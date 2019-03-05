@@ -1,3 +1,7 @@
+const path = p => {
+  return `assets/img/${p}`
+}
+
 export default class Assets {
   static init() {
     this.textures = {}
@@ -90,7 +94,10 @@ export default class Assets {
           ]
         }
       },
-      mapChip: [PIXI.Texture.fromFrame('map1 0')]
+      mapChip: [PIXI.Texture.fromFrame('map1 0')],
+      item: {
+        chestNut: [PIXI.Texture.from(path('item/chestnut_1.png'))]
+      }
     }
   }
 }

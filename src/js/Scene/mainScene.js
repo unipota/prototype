@@ -1,6 +1,7 @@
 import BaseScene from './baseScene'
 import stage1 from '../Stage/stage1'
 import Player from '../Entities/player'
+import Chestnut from '../Entities/chestnut'
 import MapChip from '../Entities/mapChip'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
@@ -32,6 +33,12 @@ export default class MainScene extends BaseScene {
         camera: this.camera,
         x: 120,
         y: 120
+      })
+    )
+    this.entities.push(
+      new Chestnut({
+        x: 100,
+        y: 100
       })
     )
 
