@@ -6,7 +6,11 @@ export default class Assets {
       'blanc/runRight.json',
       'blanc/runLeft.json',
       'blanc/runDown.json',
+      'blanc/runDownLeft.json',
+      'blanc/runDownRight.json',
       'blanc/runUp.json',
+      'blanc/runUpLeft.json',
+      'blanc/runUpRight.json',
       'map1.json'
     ]
   }
