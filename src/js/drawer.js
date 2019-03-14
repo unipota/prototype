@@ -16,14 +16,19 @@ export default class Drawer {
     document.getElementById('app').appendChild(this.renderer.view)
     console.log('Drawer init')
   }
-  static load() {
+  static loadAssets() {
     return new Promise(resolve => {
-      this.loader.onComplete.add(resolve)
       Assets.fileNames.forEach(f => {
         this.loader.add(require(`../assets/json/${f}`))
       })
-      this.loader.on('progress', (loader, resource) => {})
-      this.loader.on('complete', () => Assets.makeTextureFromFrame())
+      this.loader.on('progress', (loader, resource) => {
+        console.log(`Loaded: ${resource.url}`)
+      })
+      this.loader.on('complete', () => {
+        Assets.makeTextureFromFrame()
+        console.log('Assets loaded')
+        resolve()
+      })
       this.loader.load()
     })
   }

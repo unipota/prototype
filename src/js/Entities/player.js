@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Input from '../input'
@@ -6,7 +7,7 @@ import Assets from '../assets'
 
 const PARAMS = {
   RUN_SPEED: 0.3,
-  RUN_SPEED_LIMIT: 2,
+  RUN_SPEED_LIMIT: 3,
   RUN_RESIST: 0.03,
   RUN_ANIMATION_FRAME: 6,
   ANIMATION_PER_FRAME: 10
@@ -36,10 +37,13 @@ export default class Player extends BaseEntity {
       behavior: BEHAVIOR.STAND
     }
     this.sprite = Drawer.makeSprite(Assets.textures.mychara.STAND.DOWN[0])
+    this.sprite.scale = new PIXI.Point(2, 2)
     this.sprite.x = x
     this.sprite.y = y
+    this.width = 64
+    this.height = 64
+
     this.camera = camera
-    camera.addChild(this.sprite)
 
     this.vel = {
       x: 0,
@@ -47,7 +51,14 @@ export default class Player extends BaseEntity {
     }
     this.anime = 0
   }
+  get position() {
+    return this.sprite.position
+  }
+  addToLayer(stage) {
+    stage.addChild(this.sprite)
+  }
   update() {
+    this.frame++
     this.resistVelocity()
     this.limitVelocity()
     this.applyVelocity()
@@ -167,6 +178,16 @@ export default class Player extends BaseEntity {
 
     this.camera.pivot.x = (targetX - this.camera.pivot.x) * 0.04 + this.camera.pivot.x
     this.camera.pivot.y = (targetY - this.camera.pivot.y) * 0.04 + this.camera.pivot.y
+
+    if (Input.isKeyPressed(KEY.SHIFT)) {
+      this.shakeF = 80
+    }
+    if (this.shakeF > 0) {
+      const t = 80 - this.shakeF
+      this.camera.pivot.x += (3 ^ (-t / 100)) * Math.cos(t / 50) * Math.cos(t / 1) * 2
+      this.camera.pivot.y += (3 ^ (-t / 100)) * Math.cos(t / 50) * Math.cos(t / 1) * 2
+      this.shakeF--
+    }
   }
   limitVelocity() {
     this.vel.x =
@@ -200,6 +221,7 @@ export default class Player extends BaseEntity {
     this.sprite.x += this.vel.x
     this.sprite.y += this.vel.y
   }
+  hit(target) {}
   destroy() {
     this.sprite.destroy()
   }

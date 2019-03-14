@@ -3,13 +3,19 @@ import Drawer from 'js/drawer'
 import Assets from '../assets'
 
 export default class mapChip extends BaseEntity {
-  constructor({ camera, id, x, y }) {
+  constructor({ id, x, y }) {
     super()
     this.sprite = Drawer.makeSprite(Assets.textures.mapChip[id])
+    this.sprite.scale = new PIXI.Point(2, 2)
     this.sprite.x = x
     this.sprite.y = y
-    camera.addChild(this.sprite)
+    this.width = 64
+    this.height = 64
   }
+  addToLayer(stage) {
+    stage.addChild(this.sprite)
+  }
+  update() {}
   destroy() {
     this.sprite.destroy()
   }

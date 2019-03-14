@@ -11,16 +11,14 @@ class Game {
     Input.init()
     Scene.init()
     Assets.init()
-    await Drawer.load()
-    console.log('Assets loaded')
+    await Drawer.loadAssets()
 
     Scene.push(new TitleScene())
-    Game.run()
+    PIXI.ticker.shared.add(Game.run)
   }
-  static run() {
+  static run(delta) {
     Drawer.drawAll()
     Scene.update()
-    requestAnimationFrame(Game.run)
   }
 }
 
