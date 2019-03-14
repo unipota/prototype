@@ -2,18 +2,13 @@ import BaseScene from './baseScene'
 import stage1 from '../Stage/stage1'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
+import { LAYERS } from '../Params/params'
 import TitleScene from './titleScene'
 import Drawer from '../drawer'
 import EntityManager from '../entityManager'
 import MapChip from '../Entities/mapChip'
 import Player from '../Entities/player'
 import Chestnut from '../Entities/chestnut'
-
-const LAYERS = {
-  FIELD: 'field',
-  ITEM: 'item',
-  PLAYER: 'player'
-}
 
 export default class MainScene extends BaseScene {
   constructor() {
@@ -28,8 +23,8 @@ export default class MainScene extends BaseScene {
     const playerLayer = new PIXI.Container()
 
     this.camera.addChild(fieldLayer)
-    this.camera.addChild(playerLayer)
     this.camera.addChild(itemLayer)
+    this.camera.addChild(playerLayer)
 
     this.stage.addChild(this.camera)
 
@@ -64,18 +59,22 @@ export default class MainScene extends BaseScene {
       entity: new Player({
         x: 0,
         y: 0,
-        camera: this.camera
+        camera: this.camera,
+        scene: this
       }),
       layerKey: LAYERS.PLAYER
     })
 
-    this.entityManager.addEntity({
-      entity: new Chestnut({
-        x: 200,
-        y: 200
-      }),
-      layerKey: LAYERS.ITEM
-    })
+    for (let i = 0; i < 100; i++) {
+      this.entityManager.addEntity({
+        entity: new Chestnut({
+          x: Math.ceil(Math.random() * Drawer.width),
+          y: Math.ceil(Math.random() * Drawer.height),
+          scene: this
+        }),
+        layerKey: LAYERS.ITEM
+      })
+    }
 
     console.log('MainScene created')
   }
@@ -85,8 +84,8 @@ export default class MainScene extends BaseScene {
 
     if (Input.isKeyPressed(KEY.ESCAPE)) {
       this.entityManager.destroyAll()
-      this.camera.removeChildren()
       this.stage.removeChild(this.camera)
+      this.camera.destroy()
       this.pop()
       this.push(new TitleScene())
     }

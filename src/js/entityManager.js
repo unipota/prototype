@@ -4,13 +4,19 @@ export default class EntityManager {
     this.layers = {}
   }
   addLayer({ container, key }) {
-    this.entities[key] = []
+    this.entities[key] = {}
     this.layers[key] = container
   }
   addEntity({ entity, layerKey }) {
     this.layers[layerKey].addChild(entity.sprite)
     const index = this.layers[layerKey].getChildIndex(entity.sprite)
+    entity.index = index
     this.entities[layerKey][index] = entity
+  }
+  removeEntity({ index, layerKey }) {
+    this.layers[layerKey].removeChild(this.entities[layerKey][index])
+    this.entities[layerKey][index].destroy()
+    delete this.entities[layerKey][index]
   }
   updateAll() {
     for (let key in this.entities) {
@@ -25,8 +31,10 @@ export default class EntityManager {
         const e1 = this.entities[layerKey1][index1]
         const e2 = this.entities[layerKey2][index2]
         if (
-          Math.abs(e1.position.x - e2.position.x) < e1.width / 2 + e2.width / 2 &&
-          Math.abs(e1.position.y - e2.position.y) < e1.height / 2 + e2.height / 2
+          Math.abs(e1.hitRectPosition.x - e2.hitRectPosition.x) <
+            e1.hitRectSize.width / 2 + e2.hitRectSize.width / 2 &&
+          Math.abs(e1.hitRectPosition.y - e2.hitRectPosition.y) <
+            e1.hitRectSize.height / 2 + e2.hitRectSize.height / 2
         ) {
           e1.hit(e2)
           e2.hit(e1)

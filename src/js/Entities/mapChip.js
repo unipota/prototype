@@ -12,6 +12,9 @@ export default class mapChip extends BaseEntity {
     this.width = 64
     this.height = 64
   }
+  set index(val) {
+    this._index = val
+  }
   addToLayer(stage) {
     stage.addChild(this.sprite)
   }

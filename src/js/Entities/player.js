@@ -30,7 +30,7 @@ const DIRECTION = {
 }
 
 export default class Player extends BaseEntity {
-  constructor({ camera, x, y }) {
+  constructor({ camera, x, y, scene }) {
     super()
     this.state = {
       direction: DIRECTION.DOWN,
@@ -44,15 +44,39 @@ export default class Player extends BaseEntity {
     this.height = 64
 
     this.camera = camera
+    this.scene = scene
 
     this.vel = {
       x: 0,
       y: 0
     }
     this.anime = 0
+
+    this.hitRectPadding = {
+      top: 32,
+      left: 24,
+      right: 24,
+      bottom: 0
+    }
+    console.log(this.hitRectSize)
   }
   get position() {
     return this.sprite.position
+  }
+  get hitRectSize() {
+    return {
+      width: this.width - this.hitRectPadding.left - this.hitRectPadding.right,
+      height: this.height - this.hitRectPadding.top - this.hitRectPadding.bottom
+    }
+  }
+  get hitRectPosition() {
+    return {
+      x: this.sprite.x + this.hitRectPadding.left,
+      y: this.sprite.y + this.hitRectPadding.top
+    }
+  }
+  set index(val) {
+    this._index = val
   }
   addToLayer(stage) {
     stage.addChild(this.sprite)
