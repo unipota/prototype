@@ -18,7 +18,7 @@ class Game {
   }
   static run(delta) {
     Drawer.drawAll()
-    Scene.update()
+    Scene.update(delta)
   }
 }
 

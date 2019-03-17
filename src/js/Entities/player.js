@@ -1,9 +1,9 @@
-import * as PIXI from 'pixi.js'
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
 import Assets from '../assets'
+import { BloomFilter } from '@pixi/filter-bloom'
 
 const PARAMS = {
   RUN_SPEED: 0.3,

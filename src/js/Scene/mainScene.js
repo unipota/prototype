@@ -9,6 +9,8 @@ import EntityManager from '../entityManager'
 import MapChip from '../Entities/mapChip'
 import Player from '../Entities/player'
 import Chestnut from '../Entities/chestnut'
+import * as e from '../Util/ease'
+import * as filters from 'pixi-filters'
 
 export default class MainScene extends BaseScene {
   constructor() {
@@ -21,6 +23,8 @@ export default class MainScene extends BaseScene {
     const fieldLayer = new PIXI.Container()
     const itemLayer = new PIXI.Container()
     const playerLayer = new PIXI.Container()
+
+    playerLayer.filters = [new filters.GlowFilter()]
 
     this.camera.addChild(fieldLayer)
     this.camera.addChild(itemLayer)
@@ -81,8 +85,11 @@ export default class MainScene extends BaseScene {
     }
 
     console.log('MainScene created')
+    this.frame = 0
   }
-  update() {
+  update(delta) {
+    this.frame++
+
     this.entityManager.updateAll()
     this.moveCamera()
     this.entityManager.collisionCheck({ layerKey1: LAYERS.PLAYER, layerKey2: LAYERS.ITEM })
