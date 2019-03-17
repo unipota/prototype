@@ -9,6 +9,7 @@ import EntityManager from '../entityManager'
 import MapChip from '../Entities/mapChip'
 import Player from '../Entities/player'
 import Chestnut from '../Entities/chestnut'
+import Enemy0 from '../Entities/enemy0'
 import * as e from '../Util/ease'
 import * as filters from 'pixi-filters'
 
@@ -23,14 +24,14 @@ export default class MainScene extends BaseScene {
     const fieldLayer = new PIXI.Container()
     const itemLayer = new PIXI.Container()
     const playerLayer = new PIXI.Container()
-
-    playerLayer.filters = [new filters.GlowFilter()]
+    const enemyLayer = new PIXI.Container()
+    const enemyBulletLayer = new PIXI.Container()
 
     this.camera.addChild(fieldLayer)
     this.camera.addChild(itemLayer)
     this.camera.addChild(playerLayer)
-
-    this.stage.addChild(this.camera)
+    this.camera.addChild(enemyLayer)
+    this.camera.addChild(enemyBulletLayer)
 
     this.entityManager = new EntityManager()
     this.entityManager.addLayer({
@@ -44,6 +45,14 @@ export default class MainScene extends BaseScene {
     this.entityManager.addLayer({
       container: playerLayer,
       key: LAYERS.PLAYER
+    })
+    this.entityManager.addLayer({
+      container: enemyLayer,
+      key: LAYERS.ENEMY
+    })
+    this.entityManager.addLayer({
+      container: enemyBulletLayer,
+      key: LAYERS.ENEMY_BULLET
     })
 
     this.stageWidth = Drawer.width * 2
@@ -73,17 +82,28 @@ export default class MainScene extends BaseScene {
       layerKey: LAYERS.PLAYER
     })
 
-    for (let i = 0; i < 100; i++) {
+    this.entityManager.addEntity({
+      entity: new Enemy0({
+        x: 200,
+        y: 200,
+        scene: this
+      }),
+      layerKey: LAYERS.ENEMY
+    })
+
+    for (let i = 0; i < 1000; i++) {
       this.entityManager.addEntity({
         entity: new Chestnut({
-          x: Math.ceil(Math.random() * Drawer.width),
-          y: Math.ceil(Math.random() * Drawer.height),
+          x: Math.ceil(Math.random() * this.stageWidth),
+          y: Math.ceil(Math.random() * this.stageHeight),
           scene: this
         }),
         layerKey: LAYERS.ITEM
       })
     }
 
+    // show all layers
+    this.stage.addChild(this.camera)
     console.log('MainScene created')
     this.frame = 0
   }
@@ -93,6 +113,7 @@ export default class MainScene extends BaseScene {
     this.entityManager.updateAll()
     this.moveCamera()
     this.entityManager.collisionCheck({ layerKey1: LAYERS.PLAYER, layerKey2: LAYERS.ITEM })
+    this.entityManager.collisionCheck({ layerKey1: LAYERS.PLAYER, layerKey2: LAYERS.ENEMY_BULLET })
 
     if (Input.isKeyPressed(KEY.ESCAPE)) {
       this.entityManager.destroyAll()

@@ -1,5 +1,7 @@
 export const LAYERS = {
   FIELD: 'field',
   ITEM: 'item',
-  PLAYER: 'player'
+  PLAYER: 'player',
+  ENEMY: 'enemy',
+  ENEMY_BULLET: 'enemy_bullet'
 }

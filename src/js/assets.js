@@ -92,9 +92,11 @@ export default class Assets {
           ]
         }
       },
+      enemy: [PIXI.Texture.from(`${path}/enemy/enemy.png`)],
+      bullet: [PIXI.Texture.from(`${path}/enemy/bullet.png`)],
       mapChip: [PIXI.Texture.fromFrame('map1 0')],
       item: {
-        chestNut: [PIXI.Texture.from(`${path}/item/chestnut_1.png`)]
+        chestnut: [PIXI.Texture.from(`${path}/item/chestnut_1.png`)]
       }
     }
   }

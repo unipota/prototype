@@ -15,9 +15,6 @@ export default class mapChip extends BaseEntity {
   set index(val) {
     this._index = val
   }
-  addToLayer(stage) {
-    stage.addChild(this.sprite)
-  }
   update() {}
   destroy() {
     this.sprite.destroy()

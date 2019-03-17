@@ -4,16 +4,17 @@ export default class EntityManager {
     this.layers = {}
   }
   addLayer({ container, key }) {
-    this.entities[key] = {}
+    this.entities[key] = []
     this.layers[key] = container
   }
   addEntity({ entity, layerKey }) {
+    this.entities[layerKey].push(entity)
     this.layers[layerKey].addChild(entity.sprite)
-    const index = this.layers[layerKey].getChildIndex(entity.sprite)
-    entity.index = index
-    this.entities[layerKey][index] = entity
+    // entity.index = index
+    // console.log(this.entities[layerKey])
   }
-  removeEntity({ index, layerKey }) {
+  removeEntity({ entity, layerKey }) {
+    const index = this.entities[layerKey].findIndex(e => e === entity)
     this.layers[layerKey].removeChild(this.entities[layerKey][index])
     this.entities[layerKey][index].destroy()
     delete this.entities[layerKey][index]
