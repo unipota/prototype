@@ -42,8 +42,11 @@ export default class MainScene extends BaseScene {
       key: LAYERS.PLAYER
     })
 
-    for (let x = 0; x < (Drawer.width * 2) / 64; x++) {
-      for (let y = 0; y < (Drawer.height * 2) / 64; y++) {
+    this.stageWidth = Drawer.width * 2
+    this.stageHeight = Drawer.height * 2
+
+    for (let x = 0; x < this.stageWidth / 64; x++) {
+      for (let y = 0; y < this.stageHeight / 64; y++) {
         this.entityManager.addEntity({
           entity: new MapChip({
             id: 0,
@@ -55,13 +58,14 @@ export default class MainScene extends BaseScene {
       }
     }
 
+    this.cameraTarget = new Player({
+      x: 0,
+      y: 0,
+      camera: this.camera,
+      scene: this
+    })
     this.entityManager.addEntity({
-      entity: new Player({
-        x: 0,
-        y: 0,
-        camera: this.camera,
-        scene: this
-      }),
+      entity: this.cameraTarget,
       layerKey: LAYERS.PLAYER
     })
 
@@ -80,6 +84,7 @@ export default class MainScene extends BaseScene {
   }
   update() {
     this.entityManager.updateAll()
+    this.moveCamera()
     this.entityManager.collisionCheck({ layerKey1: LAYERS.PLAYER, layerKey2: LAYERS.ITEM })
 
     if (Input.isKeyPressed(KEY.ESCAPE)) {
@@ -89,5 +94,18 @@ export default class MainScene extends BaseScene {
       this.pop()
       this.push(new TitleScene())
     }
+  }
+  moveCamera() {
+    const targetX = this.cameraTarget.position.x + this.cameraTarget.width / 2
+    const targetY = this.cameraTarget.position.y + this.cameraTarget.height / 2
+
+    this.camera.pivot.x = Math.min(
+      Math.max((targetX - this.camera.pivot.x) * 0.04 + this.camera.pivot.x, Drawer.width / 2),
+      this.stageWidth - Drawer.width / 2
+    )
+    this.camera.pivot.y = Math.min(
+      Math.max((targetY - this.camera.pivot.y) * 0.04 + this.camera.pivot.y, Drawer.height / 2),
+      this.stageHeight - Drawer.height / 2
+    )
   }
 }

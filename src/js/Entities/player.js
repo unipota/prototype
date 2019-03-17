@@ -51,6 +51,7 @@ export default class Player extends BaseEntity {
       y: 0
     }
     this.anime = 0
+    this.hitCount = 0
 
     this.hitRectPadding = {
       top: 32,
@@ -58,7 +59,6 @@ export default class Player extends BaseEntity {
       right: 24,
       bottom: 0
     }
-    console.log(this.hitRectSize)
   }
   get position() {
     return this.sprite.position
@@ -88,7 +88,6 @@ export default class Player extends BaseEntity {
     this.applyVelocity()
     this.updateState()
     this.updateTexture()
-    this.moveCamera()
   }
   updateState() {
     const nextState = { behavior: this.state.behavior, direction: this.state.direction }
@@ -142,12 +141,12 @@ export default class Player extends BaseEntity {
         this.vel.y -= PARAMS.RUN_SPEED
         break
       case DIRECTION.UP_RIGHT:
-        this.vel.x += PARAMS.RUN_SPEED / 1.4
-        this.vel.y -= PARAMS.RUN_SPEED / 1.4
+        this.vel.x += PARAMS.RUN_SPEED / Math.sqrt(2)
+        this.vel.y -= PARAMS.RUN_SPEED / Math.sqrt(2)
         break
       case DIRECTION.UP_LEFT:
-        this.vel.x -= PARAMS.RUN_SPEED / 1.4
-        this.vel.y -= PARAMS.RUN_SPEED / 1.4
+        this.vel.x -= PARAMS.RUN_SPEED / Math.sqrt(2)
+        this.vel.y -= PARAMS.RUN_SPEED / Math.sqrt(2)
         break
       case DIRECTION.RIGHT:
         this.vel.x += PARAMS.RUN_SPEED
@@ -159,12 +158,12 @@ export default class Player extends BaseEntity {
         this.vel.y += PARAMS.RUN_SPEED
         break
       case DIRECTION.DOWN_RIGHT:
-        this.vel.x += PARAMS.RUN_SPEED / 1.4
-        this.vel.y += PARAMS.RUN_SPEED / 1.4
+        this.vel.x += PARAMS.RUN_SPEED / Math.sqrt(2)
+        this.vel.y += PARAMS.RUN_SPEED / Math.sqrt(2)
         break
       case DIRECTION.DOWN_LEFT:
-        this.vel.x -= PARAMS.RUN_SPEED / 1.4
-        this.vel.y += PARAMS.RUN_SPEED / 1.4
+        this.vel.x -= PARAMS.RUN_SPEED / Math.sqrt(2)
+        this.vel.y += PARAMS.RUN_SPEED / Math.sqrt(2)
         break
     }
   }
@@ -245,7 +244,10 @@ export default class Player extends BaseEntity {
     this.sprite.x += this.vel.x
     this.sprite.y += this.vel.y
   }
-  hit(target) {}
+  hit(target) {
+    this.hitCount++
+    console.log(this.hitCount)
+  }
   destroy() {
     this.sprite.destroy()
   }

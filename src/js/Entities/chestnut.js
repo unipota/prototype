@@ -12,6 +12,7 @@ export default class Chestnut extends BaseEntity {
     this.width = 32
     this.height = 32
     this.scene = scene
+    // this.sprite.anchor.set(0.5)
 
     this.hitRectPadding = {
       top: 4,
@@ -19,6 +20,9 @@ export default class Chestnut extends BaseEntity {
       right: 4,
       bottom: 4
     }
+
+    this.hitFlag = false
+    this.hitFrame = 0
   }
   get position() {
     return this.sprite.position
@@ -41,10 +45,24 @@ export default class Chestnut extends BaseEntity {
   addToLayer(stage) {
     stage.addChild(this.sprite)
   }
+  update() {
+    if (this.hitFlag) {
+      if (this.hitFrame <= 0) {
+        this.scene.entityManager.removeEntity({ index: this._index, layerKey: LAYERS.ITEM })
+        return
+      }
+      this.hitFrame--
+      this.sprite.scale = new PIXI.Point(this.hitFrame / 20, this.hitFrame / 20)
+    }
+  }
   destroy() {
     this.sprite.destroy()
   }
   hit(target) {
+    if (!this.hitFlag) {
+      this.hitFrame = 20
+    }
+    this.hitFlag = true
     this.scene.entityManager.removeEntity({ index: this._index, layerKey: LAYERS.ITEM })
   }
 }

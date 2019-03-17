@@ -43,6 +43,11 @@ export default class EntityManager {
     }
   }
   destroyAll() {
+    for (let key in this.entities) {
+      for (let index in this.entities[key]) {
+        this.entities[key][index].destroy()
+      }
+    }
     for (let key in this.layers) {
       this.layers[key].destroy()
     }

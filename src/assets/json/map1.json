@@ -10,7 +10,7 @@
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "image": "assets/img/map1.png",
+  "image": "assets/img/map/map1.png",
   "version": "1.2.10-beta4",
   "format": "RGBA8888",
   "size": { "w": 32, "h": 32 },
