@@ -88,6 +88,7 @@ export default class Player extends BaseEntity {
     this.resistVelocity()
     this.limitVelocity()
     this.applyVelocity()
+    this.limitPosition()
     this.updateState()
     this.updateTexture()
   }
@@ -245,6 +246,18 @@ export default class Player extends BaseEntity {
   applyVelocity() {
     this.sprite.x += this.vel.x
     this.sprite.y += this.vel.y
+  }
+  limitPosition() {
+    this.sprite.x =
+      this.sprite.x + this.width > this.scene.stageWidth
+        ? this.scene.stageWidth - this.width
+        : this.sprite.x
+    this.sprite.x = this.sprite.x < 0 ? 0 : this.sprite.x
+    this.sprite.y =
+      this.sprite.y + this.height > this.scene.stageHeight
+        ? this.scene.stageHeight - this.height
+        : this.sprite.y
+    this.sprite.y = this.sprite.y < 0 ? 0 : this.sprite.y
   }
   hit(target) {
     this.hitCount++

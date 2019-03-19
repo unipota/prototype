@@ -26,7 +26,7 @@ export default class EntityManager {
       }
     }
   }
-  collisionCheck({ layerKey1, layerKey2, colliderKey }) {
+  collisionDetect({ layerKey1, layerKey2, colliderKey }) {
     for (let index1 in this.entities[layerKey1]) {
       for (let index2 in this.entities[layerKey2]) {
         const e1 = this.entities[layerKey1][index1]
@@ -40,18 +40,6 @@ export default class EntityManager {
           e1.hit(e2)
           e2.hit(e1)
         }
-
-        // const e1 = this.entities[layerKey1][index1]
-        // const e2 = this.entities[layerKey2][index2]
-        // if (
-        //   Math.abs(e1.hitRectPosition.x - e2.hitRectPosition.x) <
-        //     e1.hitRectSize.width / 2 + e2.hitRectSize.width / 2 &&
-        //   Math.abs(e1.hitRectPosition.y - e2.hitRectPosition.y) <
-        //     e1.hitRectSize.height / 2 + e2.hitRectSize.height / 2
-        // ) {
-        //   e1.hit(e2)
-        //   e2.hit(e1)
-        // }
       }
     }
   }
