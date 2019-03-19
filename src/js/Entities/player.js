@@ -70,6 +70,13 @@ export default class Player extends BaseEntity {
       collider: bulletCollider,
       key: COLLISIONS.BULLET
     })
+
+    const itemAbsorpCollider = new RectCollider({ width: this.width, height: this.height })
+    itemAbsorpCollider.padding = { top: -32, left: -32, right: -32, bottom: -32 }
+    this.collider.addCollider({
+      collider: itemAbsorpCollider,
+      key: COLLISIONS.ITEM_ABSORP
+    })
   }
   getCollider({ key }) {
     return this.collider.getCollider({ key, x: this.position.x, y: this.position.y })
@@ -259,9 +266,15 @@ export default class Player extends BaseEntity {
         : this.sprite.y
     this.sprite.y = this.sprite.y < 0 ? 0 : this.sprite.y
   }
-  hit(target) {
-    this.hitCount++
-    console.log(this.hitCount)
+  hit({ target, colliderKey }) {
+    switch (colliderKey) {
+      case COLLISIONS.ITEM:
+        this.hitCount++
+        console.log(this.hitCount)
+        break
+      case COLLISIONS.ITEM_ABSORP:
+        break
+    }
   }
   destroy() {
     this.sprite.destroy()

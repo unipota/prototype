@@ -8,5 +8,6 @@ export const LAYERS = {
 
 export const COLLISIONS = {
   ITEM: 'item',
-  BULLET: 'bullet'
+  BULLET: 'bullet',
+  ITEM_ABSORP: 'item_absorp'
 }

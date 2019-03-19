@@ -37,8 +37,8 @@ export default class EntityManager {
           Math.abs(c1.position.x - c2.position.x) < c1.size.width / 2 + c2.size.width / 2 &&
           Math.abs(c1.position.y - c2.position.y) < c1.size.height / 2 + c2.size.height / 2
         ) {
-          e1.hit(e2)
-          e2.hit(e1)
+          e1.hit({ target: e2, colliderKey })
+          e2.hit({ target: e1, colliderKey })
         }
       }
     }

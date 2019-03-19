@@ -119,6 +119,11 @@ export default class MainScene extends BaseScene {
     })
     this.entityManager.collisionDetect({
       layerKey1: LAYERS.PLAYER,
+      layerKey2: LAYERS.ITEM,
+      colliderKey: COLLISIONS.ITEM_ABSORP
+    })
+    this.entityManager.collisionDetect({
+      layerKey1: LAYERS.PLAYER,
       layerKey2: LAYERS.ENEMY_BULLET,
       colliderKey: COLLISIONS.BULLET
     })
