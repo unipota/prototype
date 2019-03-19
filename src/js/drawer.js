@@ -32,7 +32,10 @@ export default class Drawer {
       this.loader.load()
     })
   }
-  static makeSprite(defaultTexture) {
+  static makeSprite(defaultTexture, scaleMode) {
+    if (scaleMode !== undefined) {
+      defaultTexture.baseTexture.scaleMode = scaleMode
+    }
     return new PIXI.Sprite(defaultTexture)
   }
   static addToRoot(target) {

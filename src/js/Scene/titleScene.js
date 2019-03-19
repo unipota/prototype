@@ -2,6 +2,7 @@ import BaseScene from './baseScene'
 import MainScene from './mainScene'
 import Input from '../input'
 import Drawer from '../drawer'
+import Assets from '../assets'
 
 export default class TitleScene extends BaseScene {
   constructor() {
@@ -12,6 +13,13 @@ export default class TitleScene extends BaseScene {
       fill: 0x101010,
       align: 'center'
     })
+
+    const titleBackground = Drawer.makeSprite(Assets.textures.ui.title, PIXI.SCALE_MODES.LINEAR)
+    titleBackground.width = Drawer.width
+    titleBackground.height = Drawer.height
+    titleBackground.roundPixels = true
+
+    this.stage.addChild(titleBackground)
     this.stage.addChild(text)
   }
   update() {

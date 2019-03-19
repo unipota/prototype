@@ -97,6 +97,9 @@ export default class Assets {
       mapChip: [PIXI.Texture.fromFrame('map1 0')],
       item: {
         chestnut: [PIXI.Texture.from(`${path}/item/chestnut_1.png`)]
+      },
+      ui: {
+        title: PIXI.Texture.from(`${path}/ui/title.jpg`)
       }
     }
   }
