@@ -1,7 +1,8 @@
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Assets from '../assets'
-import { LAYERS } from '../Params/params'
+import { LAYERS, COLLISIONS } from '../Params/params'
+import { Collider, RectCollider } from '../collider'
 
 export default class Chestnut extends BaseEntity {
   constructor({ x, y, scene }) {
@@ -14,27 +15,24 @@ export default class Chestnut extends BaseEntity {
     this.scene = scene
     // this.sprite.anchor.set(0.5)
 
-    this.hitRectPadding = {
+    this.collider = new Collider()
+    const itemCollider = new RectCollider({ width: this.width, height: this.height })
+    itemCollider.padding = {
       top: 4,
       left: 4,
       right: 4,
       bottom: 4
     }
+    this.collider.addCollider({
+      collider: itemCollider,
+      key: COLLISIONS.ITEM
+    })
   }
   get position() {
     return this.sprite.position
   }
-  get hitRectSize() {
-    return {
-      width: this.width - this.hitRectPadding.left - this.hitRectPadding.right,
-      height: this.height - this.hitRectPadding.top - this.hitRectPadding.bottom
-    }
-  }
-  get hitRectPosition() {
-    return {
-      x: this.sprite.x + this.hitRectPadding.left,
-      y: this.sprite.y + this.hitRectPadding.top
-    }
+  getCollider({ key }) {
+    return this.collider.getCollider({ key, x: this.position.x, y: this.position.y })
   }
   update() {}
   destroy() {

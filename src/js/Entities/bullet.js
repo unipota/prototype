@@ -1,8 +1,8 @@
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Assets from '../assets'
-import { LAYERS } from '../Params/params'
-import * as filters from 'pixi-filters'
+import { LAYERS, COLLISIONS } from '../Params/params'
+import { Collider, RectCollider } from '../collider'
 
 export default class Bullet extends BaseEntity {
   constructor({ x, y, vec, scene }) {
@@ -16,24 +16,21 @@ export default class Bullet extends BaseEntity {
     this.width = 32
     this.height = 32
 
-    this.hitRectPadding = {
+    this.collider = new Collider()
+    const bulletCollider = new RectCollider({ width: this.width, height: this.height })
+    bulletCollider.padding = {
       top: 4,
       left: 4,
       right: 4,
       bottom: 4
     }
+    this.collider.addCollider({
+      collider: bulletCollider,
+      key: COLLISIONS.BULLET
+    })
   }
-  get hitRectSize() {
-    return {
-      width: this.width - this.hitRectPadding.left - this.hitRectPadding.right,
-      height: this.height - this.hitRectPadding.top - this.hitRectPadding.bottom
-    }
-  }
-  get hitRectPosition() {
-    return {
-      x: this.sprite.x + this.hitRectPadding.left,
-      y: this.sprite.y + this.hitRectPadding.top
-    }
+  getCollider({ key }) {
+    return this.collider.getCollider({ key, x: this.position.x, y: this.position.y })
   }
   get position() {
     return this.sprite.position
@@ -44,6 +41,14 @@ export default class Bullet extends BaseEntity {
   update() {
     this.sprite.x += this.vec.x
     this.sprite.y += this.vec.y
+    if (
+      this.scene.stageWidth < this.position.x ||
+      this.scene.stageHeight < this.position.y ||
+      0 > this.position.x + this.width ||
+      0 > this.position.y + this.height
+    ) {
+      this.scene.entityManager.removeEntity({ entity: this, layerKey: LAYERS.ENEMY_BULLET })
+    }
   }
   hit() {
     this.scene.entityManager.removeEntity({ entity: this, layerKey: LAYERS.ENEMY_BULLET })

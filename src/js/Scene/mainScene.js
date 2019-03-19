@@ -2,7 +2,7 @@ import BaseScene from './baseScene'
 import stage1 from '../Stage/stage1'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
-import { LAYERS } from '../Params/params'
+import { LAYERS, COLLISIONS } from '../Params/params'
 import TitleScene from './titleScene'
 import Drawer from '../drawer'
 import EntityManager from '../entityManager'
@@ -112,8 +112,16 @@ export default class MainScene extends BaseScene {
 
     this.entityManager.updateAll()
     this.moveCamera()
-    this.entityManager.collisionCheck({ layerKey1: LAYERS.PLAYER, layerKey2: LAYERS.ITEM })
-    this.entityManager.collisionCheck({ layerKey1: LAYERS.PLAYER, layerKey2: LAYERS.ENEMY_BULLET })
+    this.entityManager.collisionCheck({
+      layerKey1: LAYERS.PLAYER,
+      layerKey2: LAYERS.ITEM,
+      colliderKey: COLLISIONS.ITEM
+    })
+    this.entityManager.collisionCheck({
+      layerKey1: LAYERS.PLAYER,
+      layerKey2: LAYERS.ENEMY_BULLET,
+      colliderKey: COLLISIONS.BULLET
+    })
 
     if (Input.isKeyPressed(KEY.ESCAPE)) {
       this.entityManager.destroyAll()

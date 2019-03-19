@@ -4,6 +4,8 @@ import Input from '../input'
 import { KEY } from '../Config/keyConfig'
 import Assets from '../assets'
 import { BloomFilter } from '@pixi/filter-bloom'
+import { Collider, RectCollider } from '../collider'
+import { COLLISIONS } from '../Params/params'
 
 const PARAMS = {
   RUN_SPEED: 0.3,
@@ -53,27 +55,27 @@ export default class Player extends BaseEntity {
     this.anime = 0
     this.hitCount = 0
 
-    this.hitRectPadding = {
-      top: 32,
-      left: 24,
-      right: 24,
-      bottom: 0
-    }
+    this.collider = new Collider()
+
+    const itemCollider = new RectCollider({ width: this.width, height: this.height })
+    itemCollider.padding = { top: 32, left: 24, right: 24, bottom: 0 }
+    this.collider.addCollider({
+      collider: itemCollider,
+      key: COLLISIONS.ITEM
+    })
+
+    const bulletCollider = new RectCollider({ width: this.width, height: this.height })
+    bulletCollider.padding = { top: 0, left: 0, right: 0, bottom: 0 }
+    this.collider.addCollider({
+      collider: bulletCollider,
+      key: COLLISIONS.BULLET
+    })
+  }
+  getCollider({ key }) {
+    return this.collider.getCollider({ key, x: this.position.x, y: this.position.y })
   }
   get position() {
     return this.sprite.position
-  }
-  get hitRectSize() {
-    return {
-      width: this.width - this.hitRectPadding.left - this.hitRectPadding.right,
-      height: this.height - this.hitRectPadding.top - this.hitRectPadding.bottom
-    }
-  }
-  get hitRectPosition() {
-    return {
-      x: this.sprite.x + this.hitRectPadding.left,
-      y: this.sprite.y + this.hitRectPadding.top
-    }
   }
   set index(val) {
     this._index = val

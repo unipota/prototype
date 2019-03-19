@@ -6,8 +6,8 @@ export default class Input {
     document.addEventListener('keyup', e => {
       Input.onKeyUp(e)
     })
-    window.addEventListener('blur', e => {
-      Input.reset(e)
+    window.addEventListener('blur', _ => {
+      Input.reset()
     })
     this.pressedKey = {}
     this.pressedKeyLock = {}
@@ -20,7 +20,7 @@ export default class Input {
     this.pressedKey[event.keyCode] = false
     this.pressedKeyLock[event.keyCode] = false
   }
-  static reset(event) {
+  static reset() {
     this.pressedKey = {}
     this.pressedKeyLock = {}
   }
@@ -51,9 +51,5 @@ export default class Input {
       }
       return false
     }
-  }
-  static resetKeys() {
-    this.pressedKey = {}
-    this.pressedKeyLock = {}
   }
 }

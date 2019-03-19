@@ -26,20 +26,32 @@ export default class EntityManager {
       }
     }
   }
-  collisionCheck({ layerKey1, layerKey2 }) {
+  collisionCheck({ layerKey1, layerKey2, colliderKey }) {
     for (let index1 in this.entities[layerKey1]) {
       for (let index2 in this.entities[layerKey2]) {
         const e1 = this.entities[layerKey1][index1]
         const e2 = this.entities[layerKey2][index2]
+        const c1 = e1.getCollider({ key: colliderKey })
+        const c2 = e2.getCollider({ key: colliderKey })
         if (
-          Math.abs(e1.hitRectPosition.x - e2.hitRectPosition.x) <
-            e1.hitRectSize.width / 2 + e2.hitRectSize.width / 2 &&
-          Math.abs(e1.hitRectPosition.y - e2.hitRectPosition.y) <
-            e1.hitRectSize.height / 2 + e2.hitRectSize.height / 2
+          Math.abs(c1.position.x - c2.position.x) < c1.size.width / 2 + c2.size.width / 2 &&
+          Math.abs(c1.position.y - c2.position.y) < c1.size.height / 2 + c2.size.height / 2
         ) {
           e1.hit(e2)
           e2.hit(e1)
         }
+
+        // const e1 = this.entities[layerKey1][index1]
+        // const e2 = this.entities[layerKey2][index2]
+        // if (
+        //   Math.abs(e1.hitRectPosition.x - e2.hitRectPosition.x) <
+        //     e1.hitRectSize.width / 2 + e2.hitRectSize.width / 2 &&
+        //   Math.abs(e1.hitRectPosition.y - e2.hitRectPosition.y) <
+        //     e1.hitRectSize.height / 2 + e2.hitRectSize.height / 2
+        // ) {
+        //   e1.hit(e2)
+        //   e2.hit(e1)
+        // }
       }
     }
   }

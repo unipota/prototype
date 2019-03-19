@@ -25,7 +25,7 @@ export const softBack = x => x * x * (2 * x - 1)
 export const elastic = x =>
   56 * x * x * x * x * x - 105 * x * x * x * x + 60 * x * x * x - 10 * x * x
 export const bounce = x => {
-  var pow2,
+  let pow2,
     bounce = 4
   while (x < ((pow2 = Math.pow(2, --bounce)) - 1) / 11) {}
   return 1 / Math.pow(4, 3 - bounce) - 7.5625 * Math.pow((pow2 * 3 - 2) / 22 - x, 2)

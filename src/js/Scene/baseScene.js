@@ -4,7 +4,7 @@ import Drawer from 'js/drawer'
 
 export default class BaseScene {
   constructor() {
-    Input.resetKeys()
+    Input.reset()
     this.stage = new PIXI.Container()
     Drawer.addToRoot(this.stage)
   }

@@ -5,3 +5,8 @@ export const LAYERS = {
   ENEMY: 'enemy',
   ENEMY_BULLET: 'enemy_bullet'
 }
+
+export const COLLISIONS = {
+  ITEM: 'item',
+  BULLET: 'bullet'
+}
