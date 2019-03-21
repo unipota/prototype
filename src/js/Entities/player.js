@@ -12,7 +12,7 @@ const PARAMS = {
   RUN_SPEED_LIMIT: 3,
   RUN_RESIST: 0.03,
   RUN_ANIMATION_FRAME: 6,
-  ANIMATION_PER_FRAME: 10
+  ANIMATION_PER_FRAME: 5
 }
 
 const BEHAVIOR = {
@@ -39,9 +39,11 @@ export default class Player extends BaseEntity {
       behavior: BEHAVIOR.STAND
     }
     this.sprite = Drawer.makeSprite(Assets.textures.mychara.STAND.DOWN[0])
+    console.log(this.sprite)
     this.sprite.scale = new PIXI.Point(2, 2)
     this.sprite.x = x
     this.sprite.y = y
+    this.sprite.anchor.set(0, 0)
     this.width = 64
     this.height = 64
 
@@ -58,7 +60,7 @@ export default class Player extends BaseEntity {
     this.collider = new Collider()
 
     const itemCollider = new RectCollider({ width: this.width, height: this.height })
-    itemCollider.padding = { top: 32, left: 24, right: 24, bottom: 0 }
+    itemCollider.padding = { top: 0, left: 0, right: 0, bottom: 0 }
     this.collider.addCollider({
       collider: itemCollider,
       key: COLLISIONS.ITEM
@@ -82,6 +84,7 @@ export default class Player extends BaseEntity {
     return this.collider.getCollider({ key, x: this.position.x, y: this.position.y })
   }
   get position() {
+    // return this.sprite.getGlobalPosition()
     return this.sprite.position
   }
   set index(val) {
@@ -98,6 +101,11 @@ export default class Player extends BaseEntity {
     this.limitPosition()
     this.updateState()
     this.updateTexture()
+
+    if (Input.isKeyPressed(KEY.SHIFT)) {
+      console.log(this)
+      console.log(this.collider)
+    }
   }
   updateState() {
     const nextState = { behavior: this.state.behavior, direction: this.state.direction }
@@ -206,12 +214,6 @@ export default class Player extends BaseEntity {
     }
   }
   moveCamera() {
-    const targetX = this.sprite.x + this.sprite.width / 2
-    const targetY = this.sprite.y + this.sprite.height / 2
-
-    this.camera.pivot.x = (targetX - this.camera.pivot.x) * 0.04 + this.camera.pivot.x
-    this.camera.pivot.y = (targetY - this.camera.pivot.y) * 0.04 + this.camera.pivot.y
-
     if (Input.isKeyPressed(KEY.SHIFT)) {
       this.shakeF = 80
     }
@@ -270,7 +272,7 @@ export default class Player extends BaseEntity {
     switch (colliderKey) {
       case COLLISIONS.ITEM:
         this.hitCount++
-        console.log(this.hitCount)
+        // console.log(this.hitCount)
         break
       case COLLISIONS.ITEM_ABSORP:
         break

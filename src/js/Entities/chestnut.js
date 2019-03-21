@@ -20,10 +20,10 @@ export default class Chestnut extends BaseEntity {
     this.collider = new Collider()
     const itemCollider = new RectCollider({ width: this.width, height: this.height })
     itemCollider.padding = {
-      top: 4,
-      left: 4,
-      right: 4,
-      bottom: 4
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
     }
     this.collider.addCollider({
       collider: itemCollider,
@@ -66,7 +66,6 @@ export default class Chestnut extends BaseEntity {
         if (this.isHitAbsorp) return
         this.isHitAbsorp = true
         this.absorpedTarget = target
-        console.log(target)
         break
     }
   }

@@ -22,7 +22,7 @@ export default class Drawer {
         this.loader.add(require(`../assets/json/${f}`))
       })
       this.loader.on('progress', (loader, resource) => {
-        console.log(`Loaded: ${resource.url}`)
+        // console.log(`Loaded: ${resource.url}`)
       })
       this.loader.on('complete', () => {
         Assets.makeTextureFromFrame()

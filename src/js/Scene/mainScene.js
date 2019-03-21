@@ -21,6 +21,9 @@ export default class MainScene extends BaseScene {
     this.camera.pivot.set(Drawer.width / 2, Drawer.height / 2)
     this.camera.position.set(Drawer.width / 2, Drawer.height / 2)
 
+    this.stageWidth = Drawer.width * 2
+    this.stageHeight = Drawer.height * 2
+
     const fieldLayer = new PIXI.Container()
     const itemLayer = new PIXI.Container()
     const playerLayer = new PIXI.Container()
@@ -55,9 +58,6 @@ export default class MainScene extends BaseScene {
       key: LAYERS.ENEMY_BULLET
     })
 
-    this.stageWidth = Drawer.width * 2
-    this.stageHeight = Drawer.height * 2
-
     for (let x = 0; x < this.stageWidth / 64; x++) {
       for (let y = 0; y < this.stageHeight / 64; y++) {
         this.entityManager.addEntity({
@@ -72,8 +72,8 @@ export default class MainScene extends BaseScene {
     }
 
     this.cameraTarget = new Player({
-      x: 0,
-      y: 0,
+      x: 100,
+      y: 100,
       camera: this.camera,
       scene: this
     })
@@ -84,14 +84,14 @@ export default class MainScene extends BaseScene {
 
     this.entityManager.addEntity({
       entity: new Enemy0({
-        x: 200,
-        y: 200,
+        x: 800,
+        y: 800,
         scene: this
       }),
       layerKey: LAYERS.ENEMY
     })
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10000; i++) {
       this.entityManager.addEntity({
         entity: new Chestnut({
           x: Math.ceil(Math.random() * this.stageWidth),
@@ -101,6 +101,15 @@ export default class MainScene extends BaseScene {
         layerKey: LAYERS.ITEM
       })
     }
+
+    this.entityManager.addEntity({
+      entity: new Chestnut({
+        x: 200,
+        y: 200,
+        scene: this
+      }),
+      layerKey: LAYERS.ITEM
+    })
 
     // show all layers
     this.stage.addChild(this.camera)

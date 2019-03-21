@@ -32,9 +32,10 @@ export class RectCollider {
     this._y = y
   }
   get position() {
+    // center
     return {
-      x: this._x + this._padding.left,
-      y: this._y + this._padding.top
+      x: this._x + this._width / 2,
+      y: this._y + this._height / 2
     }
   }
   set padding({ top, left, right, bottom }) {
