@@ -4,15 +4,7 @@ export default class Assets {
   static init() {
     this.textures = {}
     this.fileNames = [
-      'blanc/stand.json',
-      'blanc/runRight.json',
-      'blanc/runLeft.json',
-      'blanc/runDown.json',
-      'blanc/runDownLeft.json',
-      'blanc/runDownRight.json',
-      'blanc/runUp.json',
-      'blanc/runUpLeft.json',
-      'blanc/runUpRight.json',
+      'blanc/blanc.json',
       'blanc/runEffect/runRight.json',
       'blanc/runEffect/runLeft.json',
       'blanc/runEffect/runDown.json',
@@ -27,75 +19,79 @@ export default class Assets {
     this.textures = {
       mychara: {
         STAND: {
-          DOWN: [PIXI.Texture.fromFrame('blanc #stand 0.aseprite')],
-          RIGHT: [PIXI.Texture.fromFrame('blanc #stand 1.aseprite')],
-          UP: [PIXI.Texture.fromFrame('blanc #stand 2.aseprite')],
-          LEFT: [PIXI.Texture.fromFrame('blanc #stand 3.aseprite')]
+          DOWN: [PIXI.Texture.fromFrame('blanc 0.aseprite')],
+          DOWN_RIGHT: [PIXI.Texture.fromFrame('blanc 1.aseprite')],
+          RIGHT: [PIXI.Texture.fromFrame('blanc 2.aseprite')],
+          UP_RIGHT: [PIXI.Texture.fromFrame('blanc 3.aseprite')],
+          UP: [PIXI.Texture.fromFrame('blanc 4.aseprite')],
+          UP_LEFT: [PIXI.Texture.fromFrame('blanc 5.aseprite')],
+          LEFT: [PIXI.Texture.fromFrame('blanc 6.aseprite')],
+          DOWN_LEFT: [PIXI.Texture.fromFrame('blanc 7.aseprite')]
         },
         RUN: {
           RIGHT: [
-            PIXI.Texture.fromFrame('blanc #runRight 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runRight 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runRight 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runRight 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runRight 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runRight 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 20.aseprite'),
+            PIXI.Texture.fromFrame('blanc 21.aseprite'),
+            PIXI.Texture.fromFrame('blanc 22.aseprite'),
+            PIXI.Texture.fromFrame('blanc 23.aseprite'),
+            PIXI.Texture.fromFrame('blanc 24.aseprite'),
+            PIXI.Texture.fromFrame('blanc 25.aseprite')
           ],
           LEFT: [
-            PIXI.Texture.fromFrame('blanc #runLeft 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runLeft 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runLeft 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runLeft 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runLeft 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runLeft 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 44.aseprite'),
+            PIXI.Texture.fromFrame('blanc 45.aseprite'),
+            PIXI.Texture.fromFrame('blanc 46.aseprite'),
+            PIXI.Texture.fromFrame('blanc 47.aseprite'),
+            PIXI.Texture.fromFrame('blanc 48.aseprite'),
+            PIXI.Texture.fromFrame('blanc 49.aseprite')
           ],
           DOWN: [
-            PIXI.Texture.fromFrame('blanc #runDown 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDown 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDown 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDown 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDown 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDown 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 8.aseprite'),
+            PIXI.Texture.fromFrame('blanc 9.aseprite'),
+            PIXI.Texture.fromFrame('blanc 10.aseprite'),
+            PIXI.Texture.fromFrame('blanc 11.aseprite'),
+            PIXI.Texture.fromFrame('blanc 12.aseprite'),
+            PIXI.Texture.fromFrame('blanc 13.aseprite')
           ],
           DOWN_LEFT: [
-            PIXI.Texture.fromFrame('blanc #runDownLeft 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownLeft 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownLeft 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownLeft 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownLeft 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownLeft 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 50.aseprite'),
+            PIXI.Texture.fromFrame('blanc 51.aseprite'),
+            PIXI.Texture.fromFrame('blanc 52.aseprite'),
+            PIXI.Texture.fromFrame('blanc 53.aseprite'),
+            PIXI.Texture.fromFrame('blanc 54.aseprite'),
+            PIXI.Texture.fromFrame('blanc 55.aseprite')
           ],
           DOWN_RIGHT: [
-            PIXI.Texture.fromFrame('blanc #runDownRight 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownRight 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownRight 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownRight 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownRight 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runDownRight 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 14.aseprite'),
+            PIXI.Texture.fromFrame('blanc 15.aseprite'),
+            PIXI.Texture.fromFrame('blanc 16.aseprite'),
+            PIXI.Texture.fromFrame('blanc 17.aseprite'),
+            PIXI.Texture.fromFrame('blanc 18.aseprite'),
+            PIXI.Texture.fromFrame('blanc 19.aseprite')
           ],
           UP: [
-            PIXI.Texture.fromFrame('blanc #runUp 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUp 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUp 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUp 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUp 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUp 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 32.aseprite'),
+            PIXI.Texture.fromFrame('blanc 33.aseprite'),
+            PIXI.Texture.fromFrame('blanc 34.aseprite'),
+            PIXI.Texture.fromFrame('blanc 35.aseprite'),
+            PIXI.Texture.fromFrame('blanc 36.aseprite'),
+            PIXI.Texture.fromFrame('blanc 37.aseprite')
           ],
           UP_LEFT: [
-            PIXI.Texture.fromFrame('blanc #runUpLeft 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpLeft 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpLeft 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpLeft 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpLeft 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpLeft 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 38.aseprite'),
+            PIXI.Texture.fromFrame('blanc 39.aseprite'),
+            PIXI.Texture.fromFrame('blanc 40.aseprite'),
+            PIXI.Texture.fromFrame('blanc 41.aseprite'),
+            PIXI.Texture.fromFrame('blanc 42.aseprite'),
+            PIXI.Texture.fromFrame('blanc 43.aseprite')
           ],
           UP_RIGHT: [
-            PIXI.Texture.fromFrame('blanc #runUpRight 0.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpRight 1.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpRight 2.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpRight 3.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpRight 4.aseprite'),
-            PIXI.Texture.fromFrame('blanc #runUpRight 5.aseprite')
+            PIXI.Texture.fromFrame('blanc 26.aseprite'),
+            PIXI.Texture.fromFrame('blanc 27.aseprite'),
+            PIXI.Texture.fromFrame('blanc 28.aseprite'),
+            PIXI.Texture.fromFrame('blanc 29.aseprite'),
+            PIXI.Texture.fromFrame('blanc 30.aseprite'),
+            PIXI.Texture.fromFrame('blanc 31.aseprite')
           ]
         }
       },
