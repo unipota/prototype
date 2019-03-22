@@ -13,7 +13,7 @@ export default class Scene {
   static get currentScene() {
     return this.scenes[this.scenes.length - 1]
   }
-  static update() {
-    this.currentScene.update()
+  static update(delta) {
+    this.currentScene.update(delta)
   }
 }

@@ -451,7 +451,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.9-x64",
-  "image": "C:\\Users\\winni\\Pictures\\pixelart\\blanc\\character\\blanc.png",
+  "image": "assets/img/blanc/blanc.png",
   "format": "I8",
   "size": { "w": 576, "h": 128 },
   "scale": "1",
