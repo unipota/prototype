@@ -10,7 +10,7 @@ export default class Drawer {
       height: this.height,
       backgroundColor: 0xffffff
     })
-    this.loader = PIXI.loader
+    this.loader = new PIXI.loaders.Loader()
     this.rootStage = new PIXI.Container()
 
     document.getElementById('app').appendChild(this.renderer.view)

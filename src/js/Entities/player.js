@@ -1,5 +1,6 @@
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
+import Sound from '../sound'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
 import Assets from '../assets'

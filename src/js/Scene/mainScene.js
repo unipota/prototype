@@ -7,6 +7,7 @@ import TitleScene from './titleScene'
 import ResultScene from './resultScene'
 import Drawer from '../drawer'
 import Timer from '../timer'
+import Sound from '../sound'
 import Text from '../text'
 import EntityManager from '../entityManager'
 import MapChip from '../Entities/mapChip'
@@ -146,6 +147,10 @@ export default class MainScene extends BaseScene {
 
     this.slowFlag = false
     this.slowFrameCount = 0
+
+    Sound.assets.field.data.volume = 0.5
+    Sound.assets.field.data.loop = true
+    Sound.play('field')
   }
   update(delta) {
     this.entityManager.updateAll()
@@ -224,6 +229,7 @@ export default class MainScene extends BaseScene {
   }
   setSlowmode() {
     if (!this.slowFlag) {
+      Sound.play('shockwave')
       Timer.setScaleTimeout({ scale: 0.1, frame: 100 })
       this.slowFlag = true
       this.slowFrameCount = 0

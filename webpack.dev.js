@@ -37,7 +37,8 @@ module.exports = {
       template: "./src/index.html"
     }),
     new CopyWebpackPlugin([
-      { from: 'src/assets/img', to: './public/assets/img' }
+      { from: 'src/assets/img', to: './public/assets/img' },
+      { from: 'src/assets/sound', to: './public/assets/sound' }
     ]),
     new PrettierPlugin({
       printWidth: 100,
