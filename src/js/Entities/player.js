@@ -126,6 +126,7 @@ export default class Player extends BaseEntity {
     this.updateState()
     this.updateTexture()
     this.updateCollider()
+    this.updateInvincibleEffect()
   }
   updateState() {
     const nextState = { behavior: this.state.behavior, direction: this.state.direction }
@@ -307,6 +308,15 @@ export default class Player extends BaseEntity {
       this.itemAbsorpCollider.padding = { top: 32, left: 16, right: 16, bottom: 0 }
     }
   }
+  updateInvincibleEffect() {
+    if (this.invincibleFrame !== 0) {
+      this.sprite.alpha = Timer.scaledTime % 12 === 0 ? 1 : 0.3
+      if (Timer.scaledTime - this.invincibleFrame >= 100) {
+        this.invincibleFrame = 0
+        this.sprite.alpha = 1
+      }
+    }
+  }
   hit({ target, colliderKey }) {
     switch (colliderKey) {
       case COLLISIONS.ITEM:
@@ -317,9 +327,10 @@ export default class Player extends BaseEntity {
       case COLLISIONS.ITEM_ABSORP:
         break
       case COLLISIONS.BULLET:
-        if (this.invincibleFrame !== 0) {
+        if (this.invincibleFrame === 0) {
           this.hitPoint--
           this.invincibleFrame = Timer.time
+          Sound.play('damage')
         }
         this.scene.clearSlowmode()
         this.scene.clearFilters()

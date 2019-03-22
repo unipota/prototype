@@ -5,6 +5,7 @@ import Drawer from '../drawer'
 import Assets from '../assets'
 import Text from '../text'
 import Timer from '../timer'
+import { KEY } from '../Config/keyConfig'
 
 export default class TitleScene extends BaseScene {
   constructor() {
@@ -21,7 +22,7 @@ export default class TitleScene extends BaseScene {
     this.stage.addChild(this.textPressAnyKey)
   }
   update() {
-    if (Input.isAnyKeyTriggered()) {
+    if (Input.isKeyPressed(KEY.ENTER)) {
       console.log('key pressed')
       this.pop()
       this.push(new MainScene())

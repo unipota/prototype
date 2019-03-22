@@ -80,7 +80,7 @@ export default class MainScene extends BaseScene {
       for (let y = 0; y < this.stageHeight / 64; y++) {
         this.entityManager.addEntity({
           entity: new MapChip({
-            id: 0,
+            id: Math.random() > 0.9 ? 1 : 0,
             x: x * 64,
             y: y * 64
           }),
@@ -125,7 +125,8 @@ export default class MainScene extends BaseScene {
         entity: new Chestnut({
           x: Math.ceil(Math.random() * this.stageWidth),
           y: Math.ceil((Math.random() * this.stageHeight) / 2),
-          scene: this
+          scene: this,
+          id: Math.floor(Math.random() * 6)
         }),
         layerKey: LAYERS.ITEM
       })
@@ -157,6 +158,7 @@ export default class MainScene extends BaseScene {
     this.moveCamera()
     this.collisionDetect()
     this.updateFilters()
+    this.updateUi()
 
     if (this.cameraTarget.hitPoint <= 0) {
       this.entityManager.destroyAll()
@@ -173,6 +175,9 @@ export default class MainScene extends BaseScene {
       this.pop()
       this.push(new TitleScene())
     }
+  }
+  updateUi() {
+    this.totalPriceText.text = `${this.cameraTarget.totalPrice}G`
   }
   collisionDetect() {
     this.entityManager.collisionDetect({
@@ -211,7 +216,6 @@ export default class MainScene extends BaseScene {
   }
   getItem({ price }) {
     this.priceText.text = `${price}G GET!`
-    this.totalPriceText.text = `${this.cameraTarget.totalPrice}G`
   }
   updateFilters() {
     if (this.slowFlag && this.slowFrameCount >= 100) {
@@ -230,6 +234,7 @@ export default class MainScene extends BaseScene {
   setSlowmode() {
     if (!this.slowFlag) {
       Sound.play('shockwave')
+      Sound.setReverbFilter('field')
       Timer.setScaleTimeout({ scale: 0.1, frame: 100 })
       this.slowFlag = true
       this.slowFrameCount = 0
@@ -242,6 +247,7 @@ export default class MainScene extends BaseScene {
     }
   }
   clearSlowmode() {
+    Sound.clearFilters('field')
     Sound.stop('shockwave')
     this.slowFlag = false
     this.slowFrameCount = 0

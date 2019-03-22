@@ -4,5 +4,6 @@ export const KEY = {
   RIGHT: 39,
   DOWN: 40,
   SHIFT: 16,
-  ESCAPE: 27
+  ESCAPE: 27,
+  ENTER: 13
 }

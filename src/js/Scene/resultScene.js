@@ -4,6 +4,7 @@ import Input from '../input'
 import Drawer from '../drawer'
 import Text from '../text'
 import Assets from '../assets'
+import { KEY } from '../Config/keyConfig'
 
 export default class ResultScene extends BaseScene {
   constructor({ score }) {
@@ -16,7 +17,7 @@ export default class ResultScene extends BaseScene {
     this.stage.addChild(text)
   }
   update() {
-    if (Input.isAnyKeyTriggered()) {
+    if (Input.isKeyPressed(KEY.ENTER)) {
       console.log('key pressed')
       this.pop()
       this.push(new TitleScene())
