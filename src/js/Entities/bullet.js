@@ -3,6 +3,7 @@ import Drawer from '../drawer'
 import Assets from '../assets'
 import { LAYERS, COLLISIONS } from '../Params/params'
 import { Collider, RectCollider } from '../collider'
+import Timer from '../timer'
 
 export default class Bullet extends BaseEntity {
   constructor({ x, y, vec, scene }) {
@@ -19,14 +20,18 @@ export default class Bullet extends BaseEntity {
     this.collider = new Collider()
     const bulletCollider = new RectCollider({ width: this.width, height: this.height })
     bulletCollider.padding = {
-      top: 4,
-      left: 4,
-      right: 4,
-      bottom: 4
+      top: 8,
+      left: 8,
+      right: 8,
+      bottom: 8
     }
     this.collider.addCollider({
       collider: bulletCollider,
       key: COLLISIONS.BULLET
+    })
+    this.collider.addCollider({
+      collider: bulletCollider,
+      key: COLLISIONS.BULLET_GRAZE
     })
   }
   getCollider({ key }) {
@@ -39,8 +44,8 @@ export default class Bullet extends BaseEntity {
     this._index = val
   }
   update() {
-    this.sprite.x += this.vec.x
-    this.sprite.y += this.vec.y
+    this.sprite.x += this.vec.x * Timer.scale
+    this.sprite.y += this.vec.y * Timer.scale
     if (
       this.scene.stageWidth < this.position.x ||
       this.scene.stageHeight < this.position.y ||
@@ -50,8 +55,14 @@ export default class Bullet extends BaseEntity {
       this.scene.entityManager.removeEntity({ entity: this, layerKey: LAYERS.ENEMY_BULLET })
     }
   }
-  hit() {
-    this.scene.entityManager.removeEntity({ entity: this, layerKey: LAYERS.ENEMY_BULLET })
+  hit({ colliderKey }) {
+    switch (colliderKey) {
+      case COLLISIONS.BULLET:
+        this.scene.entityManager.removeEntity({ entity: this, layerKey: LAYERS.ENEMY_BULLET })
+        break
+      case COLLISIONS.BULLET_GRAZE:
+        break
+    }
   }
   destroy() {
     this.sprite.destroy()

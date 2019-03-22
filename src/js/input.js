@@ -3,6 +3,9 @@ export default class Input {
     document.addEventListener('keydown', e => {
       Input.onKeyDown(e)
     })
+    document.addEventListener('keypress', e => {
+      Input.onKeyPress(e)
+    })
     document.addEventListener('keyup', e => {
       Input.onKeyUp(e)
     })
@@ -16,6 +19,7 @@ export default class Input {
   static onKeyDown(event) {
     this.pressedKey[event.keyCode] = true
   }
+  static onKeyPress(event) {}
   static onKeyUp(event) {
     this.pressedKey[event.keyCode] = false
     this.pressedKeyLock[event.keyCode] = false
@@ -51,5 +55,14 @@ export default class Input {
       }
       return false
     }
+  }
+  static isAnyKeyTriggered() {
+    for (let k in this.pressedKey) {
+      if (this.pressedKey[k] && !this.pressedKeyLock[k]) {
+        this.pressedKeyLock[k] = true
+        return true
+      }
+    }
+    return false
   }
 }

@@ -51,7 +51,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.9-x64",
-  "image": "C:\\Users\\winni\\Pictures\\pixelart\\blanc\\runEffect\\runDown.png",
+  "image": "assets/img/blanc/runEffect/runDown.png",
   "format": "I8",
   "size": { "w": 576, "h": 96 },
   "scale": "1",

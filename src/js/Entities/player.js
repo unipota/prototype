@@ -3,24 +3,25 @@ import Drawer from '../drawer'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
 import Assets from '../assets'
-import { BloomFilter } from '@pixi/filter-bloom'
 import { Collider, RectCollider } from '../collider'
 import { COLLISIONS } from '../Params/params'
+import Timer from '../timer'
+import * as filters from 'pixi-filters'
 
-const PARAMS = {
+export const PARAMS = {
   RUN_SPEED: 0.3,
   RUN_SPEED_LIMIT: 3,
   RUN_RESIST: 0.03,
   RUN_ANIMATION_FRAME: 6,
-  ANIMATION_PER_FRAME: 5
+  FRAME_PER_ANIMATION: 5
 }
 
-const BEHAVIOR = {
+export const BEHAVIOR = {
   STAND: 'STAND',
   RUN: 'RUN'
 }
 
-const DIRECTION = {
+export const DIRECTION = {
   UP: 'UP',
   UP_RIGHT: 'UP_RIGHT',
   UP_LEFT: 'UP_LEFT',
@@ -50,42 +51,59 @@ export default class Player extends BaseEntity {
     this.camera = camera
     this.scene = scene
 
+    this.hitPoint = 10
+
     this.vel = {
       x: 0,
       y: 0
     }
     this.anime = 0
-    this.hitCount = 0
+    this.totalPrice = 0
 
     this.collider = new Collider()
 
-    const itemCollider = new RectCollider({ width: this.width, height: this.height })
-    itemCollider.padding = { top: 0, left: 0, right: 0, bottom: 0 }
+    this.itemCollider = new RectCollider({ width: this.width, height: this.height })
+    this.itemCollider.padding = { top: 32, left: 16, right: 16, bottom: 0 }
     this.collider.addCollider({
-      collider: itemCollider,
+      collider: this.itemCollider,
       key: COLLISIONS.ITEM
     })
 
-    const bulletCollider = new RectCollider({ width: this.width, height: this.height })
-    bulletCollider.padding = { top: 0, left: 0, right: 0, bottom: 0 }
+    this.bulletCollider = new RectCollider({ width: this.width, height: this.height })
+    this.bulletCollider.padding = { top: 28, left: 28, right: 28, bottom: 28 }
     this.collider.addCollider({
-      collider: bulletCollider,
+      collider: this.bulletCollider,
       key: COLLISIONS.BULLET
     })
 
-    const itemAbsorpCollider = new RectCollider({ width: this.width, height: this.height })
-    itemAbsorpCollider.padding = { top: -32, left: -32, right: -32, bottom: -32 }
+    this.bulletGrazeCollider = new RectCollider({ width: this.width, height: this.height })
+    this.bulletGrazeCollider.padding = { top: 18, left: 18, right: 18, bottom: 18 }
     this.collider.addCollider({
-      collider: itemAbsorpCollider,
+      collider: this.bulletGrazeCollider,
+      key: COLLISIONS.BULLET_GRAZE
+    })
+
+    this.itemAbsorpCollider = new RectCollider({ width: this.width, height: this.height })
+    this.itemCollider.padding = { top: 32, left: 16, right: 16, bottom: 0 }
+    this.collider.addCollider({
+      collider: this.itemAbsorpCollider,
       key: COLLISIONS.ITEM_ABSORP
     })
+
+    this.itemAbsorpFlag = false
+    this.lastGrazeTime = 0
   }
   getCollider({ key }) {
     return this.collider.getCollider({ key, x: this.position.x, y: this.position.y })
   }
   get position() {
-    // return this.sprite.getGlobalPosition()
     return this.sprite.position
+  }
+  get centerPosition() {
+    return new PIXI.Point(
+      this.sprite.position.x + this.width / 2,
+      this.sprite.position.y + this.height / 2
+    )
   }
   set index(val) {
     this._index = val
@@ -94,23 +112,19 @@ export default class Player extends BaseEntity {
     stage.addChild(this.sprite)
   }
   update() {
-    this.frame++
     this.resistVelocity()
     this.limitVelocity()
     this.applyVelocity()
     this.limitPosition()
     this.updateState()
     this.updateTexture()
-
-    if (Input.isKeyPressed(KEY.SHIFT)) {
-      console.log(this)
-      console.log(this.collider)
-    }
+    this.updateCollider()
   }
   updateState() {
     const nextState = { behavior: this.state.behavior, direction: this.state.direction }
     this.updateDirection(nextState)
     this.updateBehavior(nextState)
+    this.updateRunEffect(nextState)
     this.state = nextState
   }
   updateDirection(nextState) {
@@ -144,7 +158,7 @@ export default class Player extends BaseEntity {
         }
         if (this.state.direction === nextState.direction) {
           this.anime =
-            Math.ceil(this.frame / PARAMS.ANIMATION_PER_FRAME) % PARAMS.RUN_ANIMATION_FRAME
+            Math.ceil(Timer.scaledTime / PARAMS.FRAME_PER_ANIMATION) % PARAMS.RUN_ANIMATION_FRAME
           this.handleRunBehavior(nextState)
         }
     }
@@ -183,6 +197,17 @@ export default class Player extends BaseEntity {
         this.vel.x -= PARAMS.RUN_SPEED / Math.sqrt(2)
         this.vel.y += PARAMS.RUN_SPEED / Math.sqrt(2)
         break
+    }
+  }
+  updateRunEffect(nextState) {
+    this.runEffect.centerX = this.centerPosition.x
+    this.runEffect.centerY = this.centerPosition.y
+
+    if (
+      this.state.direction !== nextState.direction ||
+      this.state.behavior !== nextState.behavior
+    ) {
+      this.runEffect.playOnce(this.state)
     }
   }
   updateTexture() {
@@ -253,8 +278,8 @@ export default class Player extends BaseEntity {
         : this.vel.y
   }
   applyVelocity() {
-    this.sprite.x += this.vel.x
-    this.sprite.y += this.vel.y
+    this.sprite.x += this.vel.x * Timer.scale
+    this.sprite.y += this.vel.y * Timer.scale
   }
   limitPosition() {
     this.sprite.x =
@@ -268,13 +293,38 @@ export default class Player extends BaseEntity {
         : this.sprite.y
     this.sprite.y = this.sprite.y < 0 ? 0 : this.sprite.y
   }
+  updateCollider() {
+    if (this.itemAbsorpFlag) {
+      this.itemAbsorpCollider.padding = { top: -64, left: -64, right: -64, bottom: -64 }
+    } else {
+      this.itemAbsorpCollider.padding = { top: 32, left: 16, right: 16, bottom: 0 }
+    }
+  }
   hit({ target, colliderKey }) {
     switch (colliderKey) {
       case COLLISIONS.ITEM:
-        this.hitCount++
-        // console.log(this.hitCount)
+        this.totalPrice += target.price
+        this.scene.getItem({ price: target.price })
         break
       case COLLISIONS.ITEM_ABSORP:
+        break
+      case COLLISIONS.BULLET:
+        this.hitPoint--
+        this.scene.clearSlowmode()
+        this.scene.clearFilters()
+        break
+      case COLLISIONS.BULLET_GRAZE:
+        if (this.lastGrazeTime !== 0) {
+          if (Timer.time - this.lastGrazeTime <= 2) {
+            this.scene.setSlowmode()
+            this.itemAbsorpFlag = true
+            this.lastGrazeTime = 0
+          } else {
+            this.lastGrazeTime = 0
+          }
+        } else {
+          this.lastGrazeTime = Timer.time
+        }
         break
     }
   }

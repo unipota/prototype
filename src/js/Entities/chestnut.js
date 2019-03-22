@@ -3,6 +3,7 @@ import Drawer from '../drawer'
 import Assets from '../assets'
 import { LAYERS, COLLISIONS } from '../Params/params'
 import { Collider, RectCollider } from '../collider'
+import Timer from '../timer'
 
 export default class Chestnut extends BaseEntity {
   constructor({ x, y, scene }) {
@@ -10,12 +11,18 @@ export default class Chestnut extends BaseEntity {
     this.sprite = Drawer.makeSprite(Assets.textures.item.chestnut[0])
     this.sprite.x = x
     this.sprite.y = y
-    this.width = 32
-    this.height = 32
+    this.uniqueRate = Math.random()
+    this.scaleSize = Math.floor(this.uniqueRate * 20 + 32)
+    this.sprite.width = this.scaleSize
+    this.sprite.height = this.scaleSize
+    this.width = this.scaleSize
+    this.height = this.scaleSize
     this.scene = scene
     // this.sprite.anchor.set(0.5)
     this.isHitAbsorp = false
     this.absorpedTarget = null
+
+    this.price = Math.floor(this.uniqueRate * 200 + 50)
 
     this.collider = new Collider()
     const itemCollider = new RectCollider({ width: this.width, height: this.height })
@@ -48,8 +55,8 @@ export default class Chestnut extends BaseEntity {
   moveToTarget(target) {
     const targetX = target.position.x + target.width / 2
     const targetY = target.position.y + target.height / 2
-    this.sprite.x = (targetX - this.sprite.x) * 0.1 + this.sprite.x
-    this.sprite.y = (targetY - this.sprite.y) * 0.1 + this.sprite.y
+    this.sprite.x = (targetX - this.sprite.x) * 0.1 * Timer.scale + this.sprite.x
+    this.sprite.y = (targetY - this.sprite.y) * 0.1 * Timer.scale + this.sprite.y
   }
   destroy() {
     this.sprite.destroy()

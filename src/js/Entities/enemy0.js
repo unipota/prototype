@@ -2,6 +2,7 @@ import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Assets from '../assets'
 import Bullet from './bullet'
+import Timer from '../timer'
 import { LAYERS } from '../Params/params'
 import * as filters from 'pixi-filters'
 
@@ -25,9 +26,7 @@ export default class Enemy0 extends BaseEntity {
     this._index = val
   }
   update() {
-    this.frame++
-
-    if (this.frame % 100 === 0) {
+    if (Timer.scaledTime % 100 === 0) {
       for (let i = 0; i < 8; i++) {
         this.scene.entityManager.addEntity({
           entity: new Bullet({

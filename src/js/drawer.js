@@ -21,9 +21,7 @@ export default class Drawer {
       Assets.fileNames.forEach(f => {
         this.loader.add(require(`../assets/json/${f}`))
       })
-      this.loader.on('progress', (loader, resource) => {
-        // console.log(`Loaded: ${resource.url}`)
-      })
+      this.loader.on('progress', (loader, resource) => {})
       this.loader.on('complete', () => {
         Assets.makeTextureFromFrame()
         console.log('Assets loaded')

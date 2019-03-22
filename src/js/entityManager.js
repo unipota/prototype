@@ -10,8 +10,6 @@ export default class EntityManager {
   addEntity({ entity, layerKey }) {
     this.entities[layerKey].push(entity)
     this.layers[layerKey].addChild(entity.sprite)
-    // entity.index = index
-    // console.log(this.entities[layerKey])
   }
   removeEntity({ entity, layerKey }) {
     const index = this.entities[layerKey].findIndex(e => e === entity)

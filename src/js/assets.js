@@ -13,6 +13,14 @@ export default class Assets {
       'blanc/runUp.json',
       'blanc/runUpLeft.json',
       'blanc/runUpRight.json',
+      'blanc/runEffect/runRight.json',
+      'blanc/runEffect/runLeft.json',
+      'blanc/runEffect/runDown.json',
+      'blanc/runEffect/runDownLeft.json',
+      'blanc/runEffect/runDownRight.json',
+      'blanc/runEffect/runUp.json',
+      'blanc/runEffect/runUpLeft.json',
+      'blanc/runEffect/runUpRight.json',
       'map1.json'
     ]
   }
@@ -89,6 +97,74 @@ export default class Assets {
             PIXI.Texture.fromFrame('blanc #runUpRight 3.aseprite'),
             PIXI.Texture.fromFrame('blanc #runUpRight 4.aseprite'),
             PIXI.Texture.fromFrame('blanc #runUpRight 5.aseprite')
+          ]
+        }
+      },
+      effect: {
+        RUN: {
+          RIGHT: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runRight 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runRight 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runRight 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runRight 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runRight 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runRight 5.aseprite')
+          ],
+          LEFT: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runLeft 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runLeft 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runLeft 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runLeft 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runLeft 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runLeft 5.aseprite')
+          ],
+          DOWN: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runDown 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDown 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDown 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDown 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDown 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDown 5.aseprite')
+          ],
+          DOWN_LEFT: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownLeft 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownLeft 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownLeft 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownLeft 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownLeft 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownLeft 5.aseprite')
+          ],
+          DOWN_RIGHT: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownRight 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownRight 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownRight 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownRight 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownRight 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runDownRight 5.aseprite')
+          ],
+          UP: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runUp 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUp 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUp 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUp 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUp 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUp 5.aseprite')
+          ],
+          UP_LEFT: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpLeft 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpLeft 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpLeft 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpLeft 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpLeft 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpLeft 5.aseprite')
+          ],
+          UP_RIGHT: [
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpRight 0.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpRight 1.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpRight 2.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpRight 3.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpRight 4.aseprite'),
+            PIXI.Texture.fromFrame('runEffect (effect) #runUpRight 5.aseprite')
           ]
         }
       },

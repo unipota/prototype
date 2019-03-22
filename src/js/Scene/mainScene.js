@@ -4,10 +4,14 @@ import Input from '../input'
 import { KEY } from '../Config/keyConfig'
 import { LAYERS, COLLISIONS } from '../Params/params'
 import TitleScene from './titleScene'
+import ResultScene from './resultScene'
 import Drawer from '../drawer'
+import Timer from '../timer'
+import Text from '../text'
 import EntityManager from '../entityManager'
 import MapChip from '../Entities/mapChip'
 import Player from '../Entities/player'
+import PlayerRunEffect from '../Entities/playerRunEffect'
 import Chestnut from '../Entities/chestnut'
 import Enemy0 from '../Entities/enemy0'
 import * as e from '../Util/ease'
@@ -27,12 +31,21 @@ export default class MainScene extends BaseScene {
     const fieldLayer = new PIXI.Container()
     const itemLayer = new PIXI.Container()
     const playerLayer = new PIXI.Container()
+    const playerEffectLayer = new PIXI.Container()
     const enemyLayer = new PIXI.Container()
     const enemyBulletLayer = new PIXI.Container()
+
+    this.shockwaveFilter = new filters.ShockwaveFilter()
+    this.zoomBlurFilter = new filters.ZoomBlurFilter()
+    this.colorMatrixFilter = new PIXI.filters.ColorMatrixFilter()
+
+    // this.colorMatrixFilter.negative(true)
+    this.colorMatrixFilter.greyscale(0.5, true)
 
     this.camera.addChild(fieldLayer)
     this.camera.addChild(itemLayer)
     this.camera.addChild(playerLayer)
+    this.camera.addChild(playerEffectLayer)
     this.camera.addChild(enemyLayer)
     this.camera.addChild(enemyBulletLayer)
 
@@ -48,6 +61,10 @@ export default class MainScene extends BaseScene {
     this.entityManager.addLayer({
       container: playerLayer,
       key: LAYERS.PLAYER
+    })
+    this.entityManager.addLayer({
+      container: playerEffectLayer,
+      key: LAYERS.PLAYER_EFFECT
     })
     this.entityManager.addLayer({
       container: enemyLayer,
@@ -72,8 +89,8 @@ export default class MainScene extends BaseScene {
     }
 
     this.cameraTarget = new Player({
-      x: 100,
-      y: 100,
+      x: this.stageWidth / 2,
+      y: this.stageHeight - 100,
       camera: this.camera,
       scene: this
     })
@@ -82,45 +99,77 @@ export default class MainScene extends BaseScene {
       layerKey: LAYERS.PLAYER
     })
 
+    const playerRunEffect = new PlayerRunEffect({
+      x: this.cameraTarget.position.x,
+      y: this.cameraTarget.position.y
+    })
+    this.entityManager.addEntity({
+      entity: playerRunEffect,
+      layerKey: LAYERS.PLAYER_EFFECT
+    })
+
+    this.cameraTarget.runEffect = playerRunEffect
+
     this.entityManager.addEntity({
       entity: new Enemy0({
-        x: 800,
-        y: 800,
+        x: this.stageWidth / 2,
+        y: 200,
         scene: this
       }),
       layerKey: LAYERS.ENEMY
     })
 
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 100; i++) {
       this.entityManager.addEntity({
         entity: new Chestnut({
           x: Math.ceil(Math.random() * this.stageWidth),
-          y: Math.ceil(Math.random() * this.stageHeight),
+          y: Math.ceil((Math.random() * this.stageHeight) / 2),
           scene: this
         }),
         layerKey: LAYERS.ITEM
       })
     }
 
-    this.entityManager.addEntity({
-      entity: new Chestnut({
-        x: 200,
-        y: 200,
-        scene: this
-      }),
-      layerKey: LAYERS.ITEM
-    })
+    this.uiLayer = new PIXI.Container()
+
+    this.priceText = Text.makeText({ text: '', style: 'gradient' })
+    this.uiLayer.addChild(this.priceText)
+
+    this.totalPriceText = Text.makeText({ text: '', style: 'gradient' })
+    this.totalPriceText.y = Drawer.height - 64
+    this.uiLayer.addChild(this.totalPriceText)
 
     // show all layers
     this.stage.addChild(this.camera)
+    this.stage.addChild(this.uiLayer)
     console.log('MainScene created')
-    this.frame = 0
+
+    this.slowFlag = false
+    this.slowFrameCount = 0
   }
   update(delta) {
-    this.frame++
-
     this.entityManager.updateAll()
     this.moveCamera()
+    this.collisionDetect()
+    this.updateFilters()
+
+    if (this.cameraTarget.hitPoint <= 0) {
+      this.entityManager.destroyAll()
+      this.stage.removeChild(this.camera)
+      this.camera.destroy()
+      this.pop()
+      this.push(new ResultScene({ score: this.cameraTarget.totalPrice }))
+    }
+
+    if (Input.isKeyPressed(KEY.ESCAPE)) {
+      this.entityManager.destroyAll()
+      this.stage.removeChild(this.camera)
+      this.camera.destroy()
+      this.pop()
+      this.push(new TitleScene())
+    }
+  }
+  collisionDetect() {
     this.entityManager.collisionDetect({
       layerKey1: LAYERS.PLAYER,
       layerKey2: LAYERS.ITEM,
@@ -136,14 +185,11 @@ export default class MainScene extends BaseScene {
       layerKey2: LAYERS.ENEMY_BULLET,
       colliderKey: COLLISIONS.BULLET
     })
-
-    if (Input.isKeyPressed(KEY.ESCAPE)) {
-      this.entityManager.destroyAll()
-      this.stage.removeChild(this.camera)
-      this.camera.destroy()
-      this.pop()
-      this.push(new TitleScene())
-    }
+    this.entityManager.collisionDetect({
+      layerKey1: LAYERS.PLAYER,
+      layerKey2: LAYERS.ENEMY_BULLET,
+      colliderKey: COLLISIONS.BULLET_GRAZE
+    })
   }
   moveCamera() {
     const targetX = this.cameraTarget.position.x + this.cameraTarget.width / 2
@@ -157,5 +203,45 @@ export default class MainScene extends BaseScene {
       Math.max((targetY - this.camera.pivot.y) * 0.04 + this.camera.pivot.y, Drawer.height / 2),
       this.stageHeight - Drawer.height / 2
     )
+  }
+  getItem({ price }) {
+    this.priceText.text = `${price}G GET!`
+    this.totalPriceText.text = `${this.cameraTarget.totalPrice}G`
+  }
+  updateFilters() {
+    if (this.slowFlag && this.slowFrameCount >= 100) {
+      this.clearFilters()
+      this.clearSlowmode()
+    }
+    if (this.slowFlag) {
+      this.slowFrameCount++
+
+      this.shockwaveFilter.time = e.ease(e.Out(e.cubic))(this.slowFrameCount, 0, 1, 100)
+
+      this.zoomBlurFilter.strength = e.ease(e.Out(e.cubic))(this.slowFrameCount, 0, 0.1, 100)
+      this.zoomBlurFilter.center = this.camera.toGlobal(this.cameraTarget.centerPosition)
+    }
+  }
+  setSlowmode() {
+    if (!this.slowFlag) {
+      Timer.setScaleTimeout({ scale: 0.1, frame: 100 })
+      this.slowFlag = true
+      this.slowFrameCount = 0
+      this.camera.filters = [this.shockwaveFilter, this.zoomBlurFilter, this.colorMatrixFilter]
+
+      this.shockwaveFilter.time = 0
+      this.shockwaveFilter.center = this.camera.toGlobal(this.cameraTarget.centerPosition)
+
+      this.zoomBlurFilter.center = this.camera.toGlobal(this.cameraTarget.centerPosition)
+    }
+  }
+  clearSlowmode() {
+    this.slowFlag = false
+    this.slowFrameCount = 0
+    this.cameraTarget.itemAbsorpFlag = false
+    Timer.resetScale()
+  }
+  clearFilters() {
+    this.camera.filters = null
   }
 }

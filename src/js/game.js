@@ -3,7 +3,9 @@ import Drawer from './drawer'
 import Input from './input'
 import Scene from './scene'
 import Assets from './assets'
+import Text from './text'
 import TitleScene from './Scene/titleScene'
+import Timer from './timer'
 
 class Game {
   static async start() {
@@ -11,6 +13,8 @@ class Game {
     Input.init()
     Scene.init()
     Assets.init()
+    Text.init()
+    Timer.init()
     await Drawer.loadAssets()
 
     Scene.push(new TitleScene())
@@ -19,6 +23,7 @@ class Game {
   static run(delta) {
     Drawer.drawAll()
     Scene.update(delta)
+    Timer.incTime()
   }
 }
 
