@@ -7,9 +7,9 @@ import Timer from '../timer'
 import * as filters from 'pixi-filters'
 
 export default class Chestnut extends BaseEntity {
-  constructor({ x, y, scene }) {
+  constructor({ x, y, scene, id }) {
     super()
-    this.sprite = Drawer.makeSprite(Assets.textures.item.chestnut[0])
+    this.sprite = Drawer.makeSprite(Assets.textures.item.chestnut[id])
     this.sprite.x = x
     this.sprite.y = y
     this.uniqueRate = Math.random()

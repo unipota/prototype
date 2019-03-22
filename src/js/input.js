@@ -17,6 +17,7 @@ export default class Input {
     console.log('InputManager init')
   }
   static onKeyDown(event) {
+    // console.log(event.keyCode)
     this.pressedKey[event.keyCode] = true
   }
   static onKeyPress(event) {}

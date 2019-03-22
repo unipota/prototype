@@ -7,6 +7,7 @@ import Sound from 'js/sound'
 export default class BaseScene {
   constructor() {
     Sound.stopAll()
+    Sound.reset()
     Input.reset()
     Timer.resetScale()
     this.stage = new PIXI.Container()
