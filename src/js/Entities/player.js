@@ -312,6 +312,7 @@ export default class Player extends BaseEntity {
       case COLLISIONS.ITEM:
         this.totalPrice += target.price
         this.scene.getItem({ price: target.price })
+        Sound.play('po')
         break
       case COLLISIONS.ITEM_ABSORP:
         break

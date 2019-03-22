@@ -148,8 +148,8 @@ export default class MainScene extends BaseScene {
     this.slowFlag = false
     this.slowFrameCount = 0
 
-    Sound.assets.field.data.volume = 0.5
-    Sound.assets.field.data.loop = true
+    Sound.setVolume('field', 0.5)
+    Sound.setLoop('field')
     Sound.play('field')
   }
   update(delta) {
@@ -242,6 +242,7 @@ export default class MainScene extends BaseScene {
     }
   }
   clearSlowmode() {
+    Sound.stop('shockwave')
     this.slowFlag = false
     this.slowFrameCount = 0
     this.cameraTarget.itemAbsorpFlag = false

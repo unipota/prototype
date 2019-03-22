@@ -160,8 +160,7 @@ export default class Assets {
         PIXI.Texture.from(`${path}/map/map2.png`)
       ],
       item: {
-        chestnut: [PIXI.Texture.from(`${path}/item/chestnut_1.png`)],
-        chestnut_shadow: [PIXI.Texture.from(`${path}/item/chestnut_shadow.png`)]
+        chestnut: [PIXI.Texture.from(`${path}/item/chestnut/normal.png`)]
       },
       ui: {
         title: PIXI.Texture.from(`${path}/ui/title.png`)
