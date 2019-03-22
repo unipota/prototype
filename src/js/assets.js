@@ -20,8 +20,7 @@ export default class Assets {
       'blanc/runEffect/runDownRight.json',
       'blanc/runEffect/runUp.json',
       'blanc/runEffect/runUpLeft.json',
-      'blanc/runEffect/runUpRight.json',
-      'map1.json'
+      'blanc/runEffect/runUpRight.json'
     ]
   }
   static makeTextureFromFrame() {
@@ -170,12 +169,15 @@ export default class Assets {
       },
       enemy: [PIXI.Texture.from(`${path}/enemy/enemy.png`)],
       bullet: [PIXI.Texture.from(`${path}/enemy/bullet.png`)],
-      mapChip: [PIXI.Texture.fromFrame('map1 0')],
+      mapChip: [
+        PIXI.Texture.from(`${path}/map/map1.png`),
+        PIXI.Texture.from(`${path}/map/map2.png`)
+      ],
       item: {
         chestnut: [PIXI.Texture.from(`${path}/item/chestnut_1.png`)]
       },
       ui: {
-        title: PIXI.Texture.from(`${path}/ui/title.jpg`)
+        title: PIXI.Texture.from(`${path}/ui/title.png`)
       }
     }
   }

@@ -55,8 +55,8 @@ export default class Chestnut extends BaseEntity {
   moveToTarget(target) {
     const targetX = target.position.x + target.width / 2
     const targetY = target.position.y + target.height / 2
-    this.sprite.x = (targetX - this.sprite.x) * 0.1 * Timer.scale + this.sprite.x
-    this.sprite.y = (targetY - this.sprite.y) * 0.1 * Timer.scale + this.sprite.y
+    this.sprite.x = (targetX - this.sprite.x) * 0.5 * Timer.scale + this.sprite.x
+    this.sprite.y = (targetY - this.sprite.y) * 0.5 * Timer.scale + this.sprite.y
   }
   destroy() {
     this.sprite.destroy()

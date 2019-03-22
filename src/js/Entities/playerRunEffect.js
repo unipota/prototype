@@ -9,6 +9,7 @@ export default class PlayerRunEffect extends baseEntity {
     super()
     this.sprite = Drawer.makeSprite()
     this.sprite.scale = new PIXI.Point(2, 2)
+    this.sprite.alpha = 0.8
     this.sprite.x = x
     this.sprite.y = y
     this.width = 96 * 2
@@ -39,9 +40,12 @@ export default class PlayerRunEffect extends baseEntity {
   }
   updateTexture() {
     if (this.animFrame === 0) return
-    if (Timer.time - this.animFrame < PARAMS.RUN_ANIMATION_FRAME * PARAMS.FRAME_PER_ANIMATION) {
+    if (
+      Timer.scaledTime - this.animFrame <
+      PARAMS.RUN_ANIMATION_FRAME * PARAMS.FRAME_PER_ANIMATION
+    ) {
       this.anime =
-        Math.floor((Timer.time - this.animFrame) / PARAMS.FRAME_PER_ANIMATION) %
+        Math.floor((Timer.scaledTime - this.animFrame) / PARAMS.FRAME_PER_ANIMATION) %
         PARAMS.RUN_ANIMATION_FRAME
       this.sprite.texture = Assets.textures.effect.RUN[this.state.direction][this.anime]
     } else {

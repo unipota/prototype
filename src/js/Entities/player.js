@@ -40,7 +40,6 @@ export default class Player extends BaseEntity {
       behavior: BEHAVIOR.STAND
     }
     this.sprite = Drawer.makeSprite(Assets.textures.mychara.STAND.DOWN[0])
-    console.log(this.sprite)
     this.sprite.scale = new PIXI.Point(2, 2)
     this.sprite.x = x
     this.sprite.y = y
@@ -52,6 +51,11 @@ export default class Player extends BaseEntity {
     this.scene = scene
 
     this.hitPoint = 10
+
+    this.colorMatrixFilter = new PIXI.filters.ColorMatrixFilter()
+    this.colorMatrixFilter.hue(0)
+
+    this.sprite.filters = [this.colorMatrixFilter]
 
     this.vel = {
       x: 0,
