@@ -161,11 +161,11 @@ export default class Assets {
       ],
       item: {
         chestnut: [
-          PIXI.Texture.from(`${path}/item/chestnut/normal.png`),
           PIXI.Texture.from(`${path}/item/chestnut/eaten.png`),
+          PIXI.Texture.from(`${path}/item/chestnut/normal.png`),
+          PIXI.Texture.from(`${path}/item/chestnut/silver.png`),
           PIXI.Texture.from(`${path}/item/chestnut/gold.png`),
           PIXI.Texture.from(`${path}/item/chestnut/rainbow.png`),
-          PIXI.Texture.from(`${path}/item/chestnut/silver.png`),
           PIXI.Texture.from(`${path}/item/chestnut/uni.png`)
         ]
       },

@@ -51,7 +51,7 @@ export default class Player extends BaseEntity {
     this.camera = camera
     this.scene = scene
 
-    this.hitPoint = 10
+    this.hitPoint = 3
 
     this.colorMatrixFilter = new PIXI.filters.ColorMatrixFilter()
     this.colorMatrixFilter.hue(0)
@@ -329,6 +329,7 @@ export default class Player extends BaseEntity {
       case COLLISIONS.BULLET:
         if (this.invincibleFrame === 0) {
           this.hitPoint--
+          this.scene.setHitPoint(this.hitPoint)
           this.invincibleFrame = Timer.time
           Sound.play('damage')
         }

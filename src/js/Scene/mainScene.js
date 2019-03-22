@@ -15,6 +15,7 @@ import Player from '../Entities/player'
 import PlayerRunEffect from '../Entities/playerRunEffect'
 import Chestnut from '../Entities/chestnut'
 import Enemy0 from '../Entities/enemy0'
+import HitPoint from '../Ui/hitPoint'
 import * as e from '../Util/ease'
 import * as filters from 'pixi-filters'
 
@@ -113,7 +114,15 @@ export default class MainScene extends BaseScene {
 
     this.entityManager.addEntity({
       entity: new Enemy0({
-        x: this.stageWidth / 2,
+        x: this.stageWidth / 4,
+        y: 200,
+        scene: this
+      }),
+      layerKey: LAYERS.ENEMY
+    })
+    this.entityManager.addEntity({
+      entity: new Enemy0({
+        x: (this.stageWidth / 4) * 3,
         y: 200,
         scene: this
       }),
@@ -135,11 +144,16 @@ export default class MainScene extends BaseScene {
     this.uiLayer = new PIXI.Container()
 
     this.priceText = Text.makeText({ text: '', style: 'gradient' })
+    this.priceText.x = Drawer.width / 2
+    this.priceText.y = Drawer.height - 64
     this.uiLayer.addChild(this.priceText)
 
     this.totalPriceText = Text.makeText({ text: '', style: 'gradient' })
     this.totalPriceText.y = Drawer.height - 64
     this.uiLayer.addChild(this.totalPriceText)
+
+    this.hitPoint = new HitPoint({ maxHP: 3 })
+    this.uiLayer.addChild(this.hitPoint.container)
 
     // show all layers
     this.stage.addChild(this.camera)
@@ -256,5 +270,8 @@ export default class MainScene extends BaseScene {
   }
   clearFilters() {
     this.camera.filters = null
+  }
+  setHitPoint(value) {
+    this.hitPoint.setHitPoint(value)
   }
 }
