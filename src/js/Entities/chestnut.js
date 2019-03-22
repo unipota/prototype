@@ -4,6 +4,7 @@ import Assets from '../assets'
 import { LAYERS, COLLISIONS } from '../Params/params'
 import { Collider, RectCollider } from '../collider'
 import Timer from '../timer'
+import * as filters from 'pixi-filters'
 
 export default class Chestnut extends BaseEntity {
   constructor({ x, y, scene }) {

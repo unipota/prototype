@@ -26,15 +26,15 @@ export default class Enemy0 extends BaseEntity {
     this._index = val
   }
   update() {
-    if (Timer.scaledTime % 100 === 0) {
+    if (Timer.scaledTime % 50 === 0) {
       for (let i = 0; i < 8; i++) {
         this.scene.entityManager.addEntity({
           entity: new Bullet({
             x: this.position.x,
             y: this.position.y,
             vec: new PIXI.Point(
-              1 * Math.cos((i * 45 * Math.PI) / 180),
-              1 * Math.sin((i * 45 * Math.PI) / 180)
+              2 * Math.cos((i * 45 * Math.PI + (Timer.scaledTime % 360)) / 180),
+              2 * Math.sin((i * 45 * Math.PI + (Timer.scaledTime % 360)) / 180)
             ),
             scene: this.scene
           }),
