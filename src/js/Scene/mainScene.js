@@ -119,7 +119,7 @@ export default class MainScene extends BaseScene {
       layerKey: LAYERS.ENEMY
     })
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 500; i++) {
       this.entityManager.addEntity({
         entity: new Chestnut({
           x: Math.ceil(Math.random() * this.stageWidth),

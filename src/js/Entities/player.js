@@ -57,6 +57,8 @@ export default class Player extends BaseEntity {
 
     this.sprite.filters = [this.colorMatrixFilter]
 
+    this.invincibleFrame = 0
+
     this.vel = {
       x: 0,
       y: 0
@@ -313,7 +315,10 @@ export default class Player extends BaseEntity {
       case COLLISIONS.ITEM_ABSORP:
         break
       case COLLISIONS.BULLET:
-        this.hitPoint--
+        if (this.invincibleFrame !== 0) {
+          this.hitPoint--
+          this.invincibleFrame = Timer.time
+        }
         this.scene.clearSlowmode()
         this.scene.clearFilters()
         break
