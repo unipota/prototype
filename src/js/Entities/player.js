@@ -97,6 +97,13 @@ export default class Player extends BaseEntity {
       key: COLLISIONS.ITEM_ABSORP
     })
 
+    this.exitCollider = new RectCollider({ width: this.width, height: this.height })
+    this.exitCollider.padding = { top: 0, left: 0, right: 0, bottom: 0 }
+    this.collider.addCollider({
+      collider: this.exitCollider,
+      key: COLLISIONS.EXIT
+    })
+
     this.itemAbsorpFlag = false
     this.lastGrazeTime = 0
   }
@@ -321,7 +328,7 @@ export default class Player extends BaseEntity {
     switch (colliderKey) {
       case COLLISIONS.ITEM:
         this.totalPrice += target.price
-        this.scene.getItem({ price: target.price })
+        this.scene.getItem({ price: target.price, id: target.id })
         Sound.play('po')
         break
       case COLLISIONS.ITEM_ABSORP:
@@ -332,6 +339,9 @@ export default class Player extends BaseEntity {
           this.scene.setHitPoint(this.hitPoint)
           this.invincibleFrame = Timer.time
           Sound.play('damage')
+          if (this.hitPoint <= 0) {
+            this.scene.setGameover()
+          }
         }
         this.scene.clearSlowmode()
         this.scene.clearFilters()
@@ -348,6 +358,9 @@ export default class Player extends BaseEntity {
         } else {
           this.lastGrazeTime = Timer.time
         }
+        break
+      case COLLISIONS.EXIT:
+        this.scene.setGameclear()
         break
     }
   }

@@ -2,7 +2,7 @@ import BaseScene from './baseScene'
 import stage1 from '../Stage/stage1'
 import Input from '../input'
 import { KEY } from '../Config/keyConfig'
-import { LAYERS, COLLISIONS } from '../Params/params'
+import { LAYERS, COLLISIONS, CHESTNUTS } from '../Params/params'
 import TitleScene from './titleScene'
 import ResultScene from './resultScene'
 import Drawer from '../drawer'
@@ -18,6 +18,7 @@ import Enemy0 from '../Entities/enemy0'
 import HitPoint from '../Ui/hitPoint'
 import * as e from '../Util/ease'
 import * as filters from 'pixi-filters'
+import ExitArea from '../Entities/exitArea'
 
 export default class MainScene extends BaseScene {
   constructor() {
@@ -31,6 +32,7 @@ export default class MainScene extends BaseScene {
     this.stageHeight = Drawer.height * 2
 
     const fieldLayer = new PIXI.Container()
+    const filedEntityLayer = new PIXI.Container()
     const itemLayer = new PIXI.Container()
     const playerLayer = new PIXI.Container()
     const playerEffectLayer = new PIXI.Container()
@@ -45,6 +47,7 @@ export default class MainScene extends BaseScene {
     this.colorMatrixFilter.greyscale(0.5, true)
 
     this.camera.addChild(fieldLayer)
+    this.camera.addChild(filedEntityLayer)
     this.camera.addChild(itemLayer)
     this.camera.addChild(playerLayer)
     this.camera.addChild(playerEffectLayer)
@@ -55,6 +58,10 @@ export default class MainScene extends BaseScene {
     this.entityManager.addLayer({
       container: fieldLayer,
       key: LAYERS.FIELD
+    })
+    this.entityManager.addLayer({
+      container: filedEntityLayer,
+      key: LAYERS.FIELD_ENTITY
     })
     this.entityManager.addLayer({
       container: itemLayer,
@@ -75,6 +82,14 @@ export default class MainScene extends BaseScene {
     this.entityManager.addLayer({
       container: enemyBulletLayer,
       key: LAYERS.ENEMY_BULLET
+    })
+
+    this.entityManager.addEntity({
+      entity: new ExitArea({
+        x: this.stageWidth / 2 - 96 / 2,
+        y: this.stageHeight - 32
+      }),
+      layerKey: LAYERS.FIELD_ENTITY
     })
 
     for (let x = 0; x < this.stageWidth / 64; x++) {
@@ -129,13 +144,28 @@ export default class MainScene extends BaseScene {
       layerKey: LAYERS.ENEMY
     })
 
+    const chestRateSum = CHESTNUTS.map(a => a.rate).reduce((a, b) => a + b)
+    const rates = CHESTNUTS.map((a, i) => {
+      return { index: i, rate: a.rate / chestRateSum }
+    }).sort((a, b) => b.rate - a.rate)
+
     for (let i = 0; i < 500; i++) {
+      let rndm = Math.random()
+      let id = 0
+      let acc = 0
+      for (let i = 0; i < CHESTNUTS.length; i++) {
+        acc += rates[i].rate
+        if (rndm < acc) {
+          id = rates[i].index
+          break
+        }
+      }
       this.entityManager.addEntity({
         entity: new Chestnut({
           x: Math.ceil(Math.random() * this.stageWidth),
           y: Math.ceil((Math.random() * this.stageHeight) / 2),
           scene: this,
-          id: Math.floor(Math.random() * 6)
+          id: id
         }),
         layerKey: LAYERS.ITEM
       })
@@ -163,6 +193,8 @@ export default class MainScene extends BaseScene {
     this.slowFlag = false
     this.slowFrameCount = 0
 
+    this.gameoverFrame = 0
+
     Sound.setVolume('field', 0.5)
     Sound.setLoop('field')
     Sound.play('field')
@@ -174,12 +206,12 @@ export default class MainScene extends BaseScene {
     this.updateFilters()
     this.updateUi()
 
-    if (this.cameraTarget.hitPoint <= 0) {
+    if (this.gameoverFrame !== 0 && Timer.time - this.gameoverFrame >= 50) {
       this.entityManager.destroyAll()
       this.stage.removeChild(this.camera)
       this.camera.destroy()
       this.pop()
-      this.push(new ResultScene({ score: this.cameraTarget.totalPrice }))
+      this.push(new ResultScene({ score: this.totalPrice }))
     }
 
     if (Input.isKeyPressed(KEY.ESCAPE)) {
@@ -214,6 +246,11 @@ export default class MainScene extends BaseScene {
       layerKey2: LAYERS.ENEMY_BULLET,
       colliderKey: COLLISIONS.BULLET_GRAZE
     })
+    this.entityManager.collisionDetect({
+      layerKey1: LAYERS.PLAYER,
+      layerKey2: LAYERS.FIELD_ENTITY,
+      colliderKey: COLLISIONS.EXIT
+    })
   }
   moveCamera() {
     const targetX = this.cameraTarget.position.x + this.cameraTarget.width / 2
@@ -228,8 +265,9 @@ export default class MainScene extends BaseScene {
       this.stageHeight - Drawer.height / 2
     )
   }
-  getItem({ price }) {
-    this.priceText.text = `${price}G GET!`
+  getItem({ price, id }) {
+    // console.log(id)
+    this.priceText.text = `${CHESTNUTS[id].name} GET!`
   }
   updateFilters() {
     if (this.slowFlag && this.slowFrameCount >= 100) {
@@ -273,5 +311,17 @@ export default class MainScene extends BaseScene {
   }
   setHitPoint(value) {
     this.hitPoint.setHitPoint(value)
+  }
+  setGameover() {
+    if (this.gameoverFrame !== 0) return
+    Timer.setScaleTimeout({ scale: 0.1, frame: 50 })
+    this.gameoverFrame = Timer.time
+    this.totalPrice = 0
+  }
+  setGameclear() {
+    if (this.gameoverFrame !== 0) return
+    Timer.setScaleTimeout({ scale: 0.1, frame: 50 })
+    this.gameoverFrame = Timer.time
+    this.totalPrice = this.cameraTarget.totalPrice
   }
 }

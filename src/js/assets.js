@@ -157,7 +157,8 @@ export default class Assets {
       bullet: [PIXI.Texture.from(`${path}/enemy/bullet.png`)],
       mapChip: [
         PIXI.Texture.from(`${path}/map/map1.png`),
-        PIXI.Texture.from(`${path}/map/map2.png`)
+        PIXI.Texture.from(`${path}/map/map2.png`),
+        PIXI.Texture.from(`${path}/map/exit.png`)
       ],
       item: {
         chestnut: [
@@ -165,8 +166,10 @@ export default class Assets {
           PIXI.Texture.from(`${path}/item/chestnut/normal.png`),
           PIXI.Texture.from(`${path}/item/chestnut/silver.png`),
           PIXI.Texture.from(`${path}/item/chestnut/gold.png`),
-          PIXI.Texture.from(`${path}/item/chestnut/rainbow.png`),
-          PIXI.Texture.from(`${path}/item/chestnut/uni.png`)
+          PIXI.Texture.from(`${path}/item/chestnut/uni.png`),
+          PIXI.Texture.from(`${path}/item/chestnut/nothorn.png`),
+          PIXI.Texture.from(`${path}/item/chestnut/sun.png`),
+          PIXI.Texture.from(`${path}/item/chestnut/trod.png`)
         ]
       },
       ui: {

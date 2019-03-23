@@ -1,7 +1,7 @@
 import BaseEntity from './baseEntity'
 import Drawer from '../drawer'
 import Assets from '../assets'
-import { LAYERS, COLLISIONS } from '../Params/params'
+import { LAYERS, COLLISIONS, CHESTNUTS } from '../Params/params'
 import { Collider, RectCollider } from '../collider'
 import Timer from '../timer'
 import * as filters from 'pixi-filters'
@@ -9,10 +9,12 @@ import * as filters from 'pixi-filters'
 export default class Chestnut extends BaseEntity {
   constructor({ x, y, scene, id }) {
     super()
+    this.id = id
     this.sprite = Drawer.makeSprite(Assets.textures.item.chestnut[id])
     this.sprite.x = x
     this.sprite.y = y
     this.uniqueRate = Math.random()
+    this.basePrice = CHESTNUTS[id].price
     this.scaleSize = Math.floor(this.uniqueRate * 20 + 32)
     this.sprite.width = this.scaleSize
     this.sprite.height = this.scaleSize
