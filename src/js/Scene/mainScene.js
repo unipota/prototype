@@ -175,7 +175,7 @@ export default class MainScene extends BaseScene {
 
     this.priceText = Text.makeText({ text: '', style: 'gradient' })
     this.priceText.x = Drawer.width / 2
-    this.priceText.y = Drawer.height - 64
+    this.priceText.y = 0
     this.uiLayer.addChild(this.priceText)
 
     this.totalPriceText = Text.makeText({ text: '', style: 'gradient' })
